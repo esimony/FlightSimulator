@@ -20,6 +20,8 @@ namespace FlightSimulatorApp.Views
     /// </summary>
     public partial class Joystick : UserControl
     {
+        private Point startPoint = new Point();
+
         public Joystick()
         {
             InitializeComponent();
@@ -32,17 +34,30 @@ namespace FlightSimulatorApp.Views
 
         private void Knob_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            if (e.ChangedButton ==MouseButton.Left)
+            {
+                startPoint = e.GetPosition(this);
+            }
         }
 
         private void Knob_MouseMove(object sender, MouseEventArgs e)
         {
-
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                double x = e.GetPosition(this).X - startPoint.X;
+                double y = e.GetPosition(this).Y - startPoint.Y;
+                if (Math.Sqrt((x * x) + (y * y)) < Base.Width / 2.5)
+                {
+                    knobPosition.X = x;
+                    knobPosition.Y = y;
+                }
+            }
         }
 
         private void Knob_MouseUp(object sender, MouseButtonEventArgs e)
         {
-
+            knobPosition.X = 0;
+            knobPosition.Y = 0;
         }
     }
 }
