@@ -27,10 +27,7 @@ namespace FlightSimulatorApp.Views
             InitializeComponent();
         }
 
-        private void centerKnob_Completed(object sender, EventArgs e)
-        {
-
-        }
+        private void centerKnob_Completed(object sender, EventArgs e) { }
 
         private void Knob_MouseDown(object sender, MouseButtonEventArgs e)
         {

@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:FlightSimulatorApp"
         mc:Ignorable="d"
         xmlns:Views="clr-namespace:FlightSimulatorApp.Views"
-        Title="MainWindow" Height="450" Width="800">
+        xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
+        Title="MainWindow" Height="650" Width="1000">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -20,8 +21,10 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Views:Joystick Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"
+        <Views:Joystick Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2"
                         Grid.RowSpan="2">
         </Views:Joystick>
+        <m:Map CredentialsProvider="KNb2QQlW7tEMpEKBt8fQ~K6enCIZunN9K2SKgHKtfog~Aspy4IyzSNwylc9HiGkKOnJx96eDR2bTM280wsfAusuFq1fPAlylMlM8kawmZfoi"
+               Mode="AerialWithLabels" Center="37.806029,-122.407007" ZoomLevel="16" Grid.ColumnSpan="2" Margin="0,0,0.333,3.333" Grid.RowSpan="4"/>
     </Grid>
 </Window>
