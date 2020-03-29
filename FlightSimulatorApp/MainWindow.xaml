@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         xmlns:Views="clr-namespace:FlightSimulatorApp.Views"
         xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
-        Title="MainWindow" Height="650" Width="1000">
+        Title="MainWindow" Height="750" Width="1000">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -21,10 +21,12 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Views:Joystick Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2"
+        <Views:Joystick Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2"
                         Grid.RowSpan="2">
         </Views:Joystick>
         <m:Map CredentialsProvider="KNb2QQlW7tEMpEKBt8fQ~K6enCIZunN9K2SKgHKtfog~Aspy4IyzSNwylc9HiGkKOnJx96eDR2bTM280wsfAusuFq1fPAlylMlM8kawmZfoi"
-               Mode="AerialWithLabels" Center="37.806029,-122.407007" ZoomLevel="16" Grid.ColumnSpan="2" Margin="0,0,0.333,3.333" Grid.RowSpan="4"/>
+               Mode="AerialWithLabels" Center="32.0055, 34.8854" ZoomLevel="13" Grid.ColumnSpan="2" Margin="0,0,0.333,3.333" Grid.RowSpan="4">
+            <m:Pushpin Name="pos" Location="{Binding VM_Location}"></m:Pushpin>
+        </m:Map>
     </Grid>
 </Window>
