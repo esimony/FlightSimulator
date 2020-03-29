@@ -163,7 +163,7 @@ namespace FlightSimulatorApp.Models
             get { return latitude; }
             set
             {
-                Latitude = value;
+                latitude = value;
                 NotifyPropertyChanged("Latitude");
             }
         }
