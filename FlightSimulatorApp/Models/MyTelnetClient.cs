@@ -11,17 +11,14 @@ namespace FlightSimulatorApp
     {
         // TCP client
         private TcpClient client;
-        // Data stream
-        private NetworkStream stream;
 
         public void connect(string ip, int port)
         {
             try
             {
                 client = new TcpClient(ip, port);
-                stream = client.GetStream();
-                Console.WriteLine("Trying to connect to server");
-                client.Connect(ip, port);
+//                Console.WriteLine("Trying to connect to server");
+//                client.Connect(ip, port);
                 Console.WriteLine("Client is now connected to server");
             }
             catch
@@ -33,20 +30,19 @@ namespace FlightSimulatorApp
         public void disconnect()
         {
             // Closig stream and TCP client
-            stream.Close();
             client.Close();
         }
 
         public string read()
         {
             // Declare a buffer to get the data bytes
-            Byte[] buffer = new byte[256];
+            Byte[] buffer = new byte[1024];
             String dataString = String.Empty;
 
             // Reading data bytes from client
-            Int32 bytes = stream.Read(buffer, 0, buffer.Length);
+            int bytes = client.GetStream().Read(buffer, 0, buffer.Length);
             // Translating bytes into ASCII
-            dataString = System.Text.Encoding.ASCII.GetString(buffer, 0, bytes);
+            dataString = Encoding.ASCII.GetString(buffer, 0, bytes);
             // Print recieved data
             Console.WriteLine("Received data: {0}", dataString);
 
@@ -55,11 +51,14 @@ namespace FlightSimulatorApp
 
         public void write(string command)
         {
+            // Declare a buffer to get the data bytes
+            Byte[] sentData;
+
             // Translating bytes into ASCII
-            Byte[] sentData = System.Text.Encoding.ASCII.GetBytes(command);
+            sentData = Encoding.ASCII.GetBytes(command);
 
             // Send data to server
-            this.stream.Write(sentData, 0, sentData.Length);
+            client.GetStream().Write(sentData, 0, sentData.Length);
             // Print sent data
             Console.WriteLine("Sent data: {0}", sentData);
         }

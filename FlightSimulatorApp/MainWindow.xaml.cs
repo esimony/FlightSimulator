@@ -1,6 +1,8 @@
-﻿using System;
+﻿using FlightSimulatorApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,6 +25,10 @@ namespace FlightSimulatorApp
         public MainWindow()
         {
             InitializeComponent();
+            MyTelnetClient telnetClient = new MyTelnetClient();
+            telnetClient.connect("127.0.0.1", 5402);
+            MySimulatorModel mySimulator = new MySimulatorModel(telnetClient);
+            mySimulator.start();
         }
     }
 }

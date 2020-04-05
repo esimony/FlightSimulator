@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Maps.MapControl.WPF;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,10 +13,6 @@ namespace FlightSimulatorApp
         void connect(string ip, int port);
         void disconnect();
         void start();
-        void setThrottle(double val);
-        void setAileron(double val);
-        void setRudder(double val);
-        void setElevator(double val);
         double Heading { get; set; }
         double VerticalSpeed { get; set; }
         double GroundSpeed { get; set; }
@@ -26,5 +23,10 @@ namespace FlightSimulatorApp
         double AltimeterAlt { get; set; }
         double Latitude { get; set; }
         double Longitude { get; set; }
+        Location Location { get; set; }
+        double Throttle { get; set; }
+        double Aileron { get; set; }
+        double Rudder { get; set; }
+        double Elevator { get; set; }
     }
 }

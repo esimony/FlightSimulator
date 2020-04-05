@@ -19,6 +19,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- The DashBoard table-->
@@ -33,5 +34,14 @@
         <TextBlock Text="altimiter"      Grid.Column="1" Grid.Row="6" HorizontalAlignment="Center" FontSize="20" FontWeight ="Bold"/>
         
         <!-- The DashBoard values-->
+        <TextBlock Text="{Binding VM_Heading,       Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" FontSize="20" />
+        <TextBlock Text="{Binding VM_VerticalSpeed, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" FontSize="20" />
+        <TextBlock Text="{Binding VM_GroundSpeed,   Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Center" FontSize="20" />
+        <TextBlock Text="{Binding VM_AirSpeed,      Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Grid.Row="7" HorizontalAlignment="Center" FontSize="20" />
+        <TextBlock Text="{Binding VM_Altitude,      Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" FontSize="20" />
+        <TextBlock Text="{Binding VM_Roll,          Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" FontSize="20" />
+        <TextBlock Text="{Binding VM_Pitch,         Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Center" FontSize="20" />
+        <TextBlock Text="{Binding VM_Altimeter,     Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="7" HorizontalAlignment="Center" FontSize="20" />
+
     </Grid>
 </UserControl>

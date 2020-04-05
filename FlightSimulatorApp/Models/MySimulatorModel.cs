@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Maps.MapControl.WPF;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -13,10 +14,10 @@ namespace FlightSimulatorApp.Models
         ITelnetClient telnetClient;
         volatile Boolean stop;
 
-        private double throttle;
-        private double ailrone;
-        private double rudder;
-        private double elevator;
+        private double throttle = 0;
+        private double ailrone = 0;
+        private double rudder = 0;
+        private double elevator = 0;
         private double heading;
         private double verticalSpeed;
         private double groundSpeed;
@@ -27,8 +28,10 @@ namespace FlightSimulatorApp.Models
         private double altimeter;
         private double latitude;
         private double longitude;
+        private Location location;
 
-        // INotifyPropertyChanged implementation:
+        String message;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public MySimulatorModel (ITelnetClient telnetClient) {
@@ -50,26 +53,53 @@ namespace FlightSimulatorApp.Models
             new Thread(delegate () {
                 while (!stop)
                 {
-                    telnetClient.write("get heading-deg");
-                    Heading = Double.Parse(telnetClient.read());
-                    telnetClient.write("get Vertical-Speed");
-                    VerticalSpeed = Double.Parse(telnetClient.read());
-                    telnetClient.write("get Ground-Speed");
-                    GroundSpeed = Double.Parse(telnetClient.read());
-                    telnetClient.write("get Air-Speed");
-                    AirSpeed = Double.Parse(telnetClient.read());
-                    telnetClient.write("get GPS-Altitude");
-                    GPSAltitude = Double.Parse(telnetClient.read());
-                    telnetClient.write("get Roll");
-                    Roll = Double.Parse(telnetClient.read());
-                    telnetClient.write("get Pitch");
-                    Pitch = Double.Parse(telnetClient.read());
-                    telnetClient.write("get Altimeter-Alt");
-                    AltimeterAlt = Double.Parse(telnetClient.read());
-                    telnetClient.write("get Latitude");
-                    Latitude = Double.Parse(telnetClient.read());
-                    telnetClient.write("get Longitude");
-                    Longitude = Double.Parse(telnetClient.read());
+                    try
+                    {
+                        telnetClient.write("get /instrumentation/heading-indicator/indicated-heading-deg\n");
+                        message = telnetClient.read();
+                        if (!message.Contains("ERR"))
+                            Heading = Double.Parse(telnetClient.read());
+                        telnetClient.write("get /instrumentation/gps/indicated-vertical-speed\n");
+                        message = telnetClient.read();
+                        if (!message.Contains("ERR"))
+                            VerticalSpeed = Double.Parse(telnetClient.read());
+                        telnetClient.write("get /instrumentation/gps/indicated-ground-speed-kt\n");
+                        message = telnetClient.read();
+                        if (!message.Contains("ERR"))
+                            GroundSpeed = Double.Parse(telnetClient.read());
+                        telnetClient.write("get /instrumentation/airspeed-indicator/indicated-speed-kt\n");
+                        message = telnetClient.read();
+                        if (!message.Contains("ERR"))
+                            AirSpeed = Double.Parse(telnetClient.read());
+                        telnetClient.write("get /instrumentation/gps/indicated-altitude-ft\n");
+                        message = telnetClient.read();
+                        if (!message.Contains("ERR"))
+                            GPSAltitude = Double.Parse(telnetClient.read());
+                        telnetClient.write("get /instrumentation/attitude-indicator/internal-roll-deg\n");
+                        message = telnetClient.read();
+                        if (!message.Contains("ERR"))
+                            Roll = Double.Parse(telnetClient.read());
+                        telnetClient.write("get /instrumentation/attitude-indicator/internal-pitch-deg\n");
+                        message = telnetClient.read();
+                        if (!message.Contains("ERR"))
+                            Pitch = Double.Parse(telnetClient.read());
+                        telnetClient.write("get /instrumentation/altimeter/indicated-altitude-ft\n");
+                        message = telnetClient.read();
+                        if (!message.Contains("ERR"))
+                            AltimeterAlt = Double.Parse(telnetClient.read());
+                        telnetClient.write("get /position/latitude-deg\n");
+                        message = telnetClient.read();
+                        if (!message.Contains("ERR"))
+                            Latitude = Double.Parse(telnetClient.read());
+                        telnetClient.write("get /position/longitude-deg\n");
+                        message = telnetClient.read();
+                        if (!message.Contains("ERR"))
+                            Longitude = Double.Parse(telnetClient.read());
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Could not get Heading-Deg value");
+                    }
                     Thread.Sleep(250);// read the data in 4Hz
                 }
             }).Start();
@@ -83,8 +113,11 @@ namespace FlightSimulatorApp.Models
             get { return heading; }
             set
             {
-                heading = value;
-                NotifyPropertyChanged("Heading");
+                if (heading != value)
+                {
+                    heading = value;
+                    NotifyPropertyChanged("Heading");
+                }
             }
         }
 
@@ -93,8 +126,11 @@ namespace FlightSimulatorApp.Models
             get { return verticalSpeed; }
             set
             {
-                verticalSpeed = value;
-                NotifyPropertyChanged("VerticalSpeed");
+                if (verticalSpeed != value)
+                {
+                    verticalSpeed = value;
+                    NotifyPropertyChanged("VerticalSpeed");
+                }
             }
         }
 
@@ -103,8 +139,11 @@ namespace FlightSimulatorApp.Models
             get { return groundSpeed; }
             set
             {
-                groundSpeed = value;
-                NotifyPropertyChanged("GroundSpeed");
+                if (groundSpeed != value)
+                {
+                    groundSpeed = value;
+                    NotifyPropertyChanged("GroundSpeed");
+                }
             }
         }
 
@@ -113,8 +152,11 @@ namespace FlightSimulatorApp.Models
             get { return airSpeed; }
             set
             {
-                airSpeed = value;
-                NotifyPropertyChanged("AirSpeed");
+                if (airSpeed != value)
+                {
+                    airSpeed = value;
+                    NotifyPropertyChanged("AirSpeed");
+                }
             }
         }
 
@@ -123,8 +165,11 @@ namespace FlightSimulatorApp.Models
             get { return GPSaltitude; }
             set
             {
-                GPSaltitude = value;
-                NotifyPropertyChanged("GPSAltitude");
+                if (GPSaltitude != value)
+                {
+                    GPSaltitude = value;
+                    NotifyPropertyChanged("GPSAltitude");
+                }
             }
         }
 
@@ -133,8 +178,11 @@ namespace FlightSimulatorApp.Models
             get { return roll; }
             set
             {
-                roll = value;
-                NotifyPropertyChanged("Roll");
+                if (roll != value)
+                {
+                    roll = value;
+                    NotifyPropertyChanged("Roll");
+                }
             }
         }
 
@@ -143,8 +191,11 @@ namespace FlightSimulatorApp.Models
             get { return pitch; }
             set
             {
-                pitch = value;
-                NotifyPropertyChanged("Pitch");
+                if (pitch != value)
+                {
+                    pitch = value;
+                    NotifyPropertyChanged("Pitch");
+                }
             }
         }
 
@@ -153,8 +204,11 @@ namespace FlightSimulatorApp.Models
             get { return altimeter; }
             set
             {
-                altimeter = value;
-                NotifyPropertyChanged("AltimeterAlt");
+                if (altimeter != value)
+                {
+                    altimeter = value;
+                    NotifyPropertyChanged("AltimeterAlt");
+                }
             }
         }
 
@@ -163,8 +217,11 @@ namespace FlightSimulatorApp.Models
             get { return latitude; }
             set
             {
-                latitude = value;
-                NotifyPropertyChanged("Latitude");
+                if (latitude != value)
+                {
+                    latitude = value;
+                    NotifyPropertyChanged("Latitude");
+                }
             }
         }
 
@@ -173,21 +230,82 @@ namespace FlightSimulatorApp.Models
             get { return longitude; }
             set
             {
-                longitude = value;
-                NotifyPropertyChanged("Longitude");
+                if (longitude != value)
+                {
+                    longitude = value;
+                    NotifyPropertyChanged("Longitude");
+                }
             }
         }
 
-        // TODO: IMPLEMENT THIS!
-        public void setThrottle(double val) { }
-        public void setAileron(double val) { }
-        public void setRudder(double val) { }
-        public void setElevator(double val) { }
+        public Location Location
+        {
+            get { return location; }
+            set
+            {
+                if (location != value)
+                {
+                    location = value;
+                    NotifyPropertyChanged("Location");
+                }
+            }
+        }
+
+        public double Throttle
+        {
+            get { return throttle; }
+            set
+            {
+                if (throttle != value)
+                {
+                    throttle = value;
+                    NotifyPropertyChanged("Throttle");
+                }
+            }
+        }
+
+        public double Aileron
+        {
+            get { return ailrone; }
+            set
+            {
+                if (ailrone != value)
+                {
+                    ailrone = value;
+                    NotifyPropertyChanged("Aileron");
+                }
+            }
+        }
+
+        public double Rudder
+        {
+            get { return rudder; }
+            set
+            {
+                if (rudder != value)
+                {
+                    rudder = value;
+                    NotifyPropertyChanged("Rudder");
+                }
+            }
+        }
+
+        public double Elevator
+        {
+            get { return elevator; }
+            set
+            {
+                if (elevator != value)
+                {
+                    elevator = value;
+                    NotifyPropertyChanged("Elevator");
+                }
+            }
+        }
 
         public void NotifyPropertyChanged(string propName) {
             if (this.PropertyChanged != null)
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
         }
-
     }
 }
