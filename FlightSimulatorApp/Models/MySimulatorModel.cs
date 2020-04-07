@@ -58,49 +58,59 @@ namespace FlightSimulatorApp.Models
                         telnetClient.write("get /instrumentation/heading-indicator/indicated-heading-deg\n");
                         message = telnetClient.read();
                         if (!message.Contains("ERR"))
-                            Heading = Double.Parse(telnetClient.read());
+                            Heading = Double.Parse(message);
+
                         telnetClient.write("get /instrumentation/gps/indicated-vertical-speed\n");
                         message = telnetClient.read();
                         if (!message.Contains("ERR"))
-                            VerticalSpeed = Double.Parse(telnetClient.read());
+                            VerticalSpeed = Double.Parse(message);
+
                         telnetClient.write("get /instrumentation/gps/indicated-ground-speed-kt\n");
                         message = telnetClient.read();
                         if (!message.Contains("ERR"))
-                            GroundSpeed = Double.Parse(telnetClient.read());
+                            GroundSpeed = Double.Parse(message);
+
                         telnetClient.write("get /instrumentation/airspeed-indicator/indicated-speed-kt\n");
                         message = telnetClient.read();
                         if (!message.Contains("ERR"))
-                            AirSpeed = Double.Parse(telnetClient.read());
+                            AirSpeed = Double.Parse(message);
+
                         telnetClient.write("get /instrumentation/gps/indicated-altitude-ft\n");
                         message = telnetClient.read();
                         if (!message.Contains("ERR"))
-                            GPSAltitude = Double.Parse(telnetClient.read());
+                            GPSAltitude = Double.Parse(message);
+
                         telnetClient.write("get /instrumentation/attitude-indicator/internal-roll-deg\n");
                         message = telnetClient.read();
                         if (!message.Contains("ERR"))
-                            Roll = Double.Parse(telnetClient.read());
+                            Roll = Double.Parse(message);
+
                         telnetClient.write("get /instrumentation/attitude-indicator/internal-pitch-deg\n");
                         message = telnetClient.read();
                         if (!message.Contains("ERR"))
-                            Pitch = Double.Parse(telnetClient.read());
+                            Pitch = Double.Parse(message);
+
                         telnetClient.write("get /instrumentation/altimeter/indicated-altitude-ft\n");
                         message = telnetClient.read();
                         if (!message.Contains("ERR"))
-                            AltimeterAlt = Double.Parse(telnetClient.read());
+                            AltimeterAlt = Double.Parse(message);
+
                         telnetClient.write("get /position/latitude-deg\n");
                         message = telnetClient.read();
                         if (!message.Contains("ERR"))
-                            Latitude = Double.Parse(telnetClient.read());
+                            Latitude = Double.Parse(message);
+
                         telnetClient.write("get /position/longitude-deg\n");
                         message = telnetClient.read();
                         if (!message.Contains("ERR"))
-                            Longitude = Double.Parse(telnetClient.read());
+                            Longitude = Double.Parse(message);
+
+                        Thread.Sleep(250);// read the data in 4Hz
                     }
                     catch
                     {
                         Console.WriteLine("Could not get Heading-Deg value");
                     }
-                    Thread.Sleep(250);// read the data in 4Hz
                 }
             }).Start();
         }
@@ -256,7 +266,17 @@ namespace FlightSimulatorApp.Models
             get { return throttle; }
             set
             {
-                if (throttle != value)
+                if (value > 1)
+                {
+                    throttle = 1;
+                    NotifyPropertyChanged("Throttle");
+                }
+                else if (value < -1)
+                {
+                    throttle = -1;
+                    NotifyPropertyChanged("Throttle");
+                }
+                else if (throttle != value)
                 {
                     throttle = value;
                     NotifyPropertyChanged("Throttle");
@@ -269,7 +289,17 @@ namespace FlightSimulatorApp.Models
             get { return ailrone; }
             set
             {
-                if (ailrone != value)
+                if (value > 1)
+                {
+                    ailrone = 1;
+                    NotifyPropertyChanged("Aileron");
+                }
+                else if (value < -1)
+                {
+                    ailrone = -1;
+                    NotifyPropertyChanged("Aileron");
+                }
+                else if (ailrone != value)
                 {
                     ailrone = value;
                     NotifyPropertyChanged("Aileron");
@@ -282,7 +312,17 @@ namespace FlightSimulatorApp.Models
             get { return rudder; }
             set
             {
-                if (rudder != value)
+                if (value > 1)
+                {
+                    rudder = 1;
+                    NotifyPropertyChanged("Rudder");
+                }
+                else if (value < -1)
+                {
+                    rudder = -1;
+                    NotifyPropertyChanged("Rudder");
+                }
+                else if (rudder != value)
                 {
                     rudder = value;
                     NotifyPropertyChanged("Rudder");
@@ -295,7 +335,17 @@ namespace FlightSimulatorApp.Models
             get { return elevator; }
             set
             {
-                if (elevator != value)
+                if (value > 1)
+                {
+                    elevator = 1;
+                    NotifyPropertyChanged("Elevator");
+                }
+                else if (value < -1)
+                {
+                    elevator = -1;
+                    NotifyPropertyChanged("Elevator");
+                }
+                else if (elevator != value)
                 {
                     elevator = value;
                     NotifyPropertyChanged("Elevator");

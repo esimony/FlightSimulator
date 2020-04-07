@@ -29,7 +29,7 @@ namespace FlightSimulatorApp
 
         public void disconnect()
         {
-            // Closig stream and TCP client
+            // Closig TCP client
             client.Close();
         }
 
@@ -37,12 +37,14 @@ namespace FlightSimulatorApp
         {
             // Declare a buffer to get the data bytes
             Byte[] buffer = new byte[1024];
-            String dataString = String.Empty;
+            String dataString = string.Empty;
 
             // Reading data bytes from client
             int bytes = client.GetStream().Read(buffer, 0, buffer.Length);
+
             // Translating bytes into ASCII
             dataString = Encoding.ASCII.GetString(buffer, 0, bytes);
+            
             // Print recieved data
             Console.WriteLine("Received data: {0}", dataString);
 
@@ -59,8 +61,9 @@ namespace FlightSimulatorApp
 
             // Send data to server
             client.GetStream().Write(sentData, 0, sentData.Length);
+
             // Print sent data
-            Console.WriteLine("Sent data: {0}", sentData);
+            Console.WriteLine("Sent data: {0}", command);
         }
     }
 }
