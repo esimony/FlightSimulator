@@ -30,10 +30,6 @@ namespace FlightSimulatorApp.Models
         private double longitude;
         private Location location;
 
-        String message;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public MySimulatorModel (ITelnetClient telnetClient) {
             this.telnetClient = telnetClient;
             stop = false;
@@ -51,6 +47,8 @@ namespace FlightSimulatorApp.Models
         public void start()
         {
             new Thread(delegate () {
+                String message;
+
                 while (!stop)
                 {
                     try
@@ -59,6 +57,7 @@ namespace FlightSimulatorApp.Models
                         message = telnetClient.read();
                         if (!message.Contains("ERR"))
                             Heading = Double.Parse(message);
+                        Heading = 5.45;
 
                         telnetClient.write("get /instrumentation/gps/indicated-vertical-speed\n");
                         message = telnetClient.read();
@@ -126,6 +125,7 @@ namespace FlightSimulatorApp.Models
                 if (heading != value)
                 {
                     heading = value;
+                    Console.WriteLine("Heading = {0}", heading);
                     NotifyPropertyChanged("Heading");
                 }
             }
@@ -353,6 +353,7 @@ namespace FlightSimulatorApp.Models
             }
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged(string propName) {
             if (this.PropertyChanged != null)
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propName));

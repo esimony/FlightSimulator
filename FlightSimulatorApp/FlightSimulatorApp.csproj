@@ -61,7 +61,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\ISimulatorModel.cs" />
-    <Compile Include="Models\INotifyPropertyChanged.cs" />
     <Compile Include="Models\ITelnetClient.cs" />
     <Compile Include="Models\MySimulatorModel.cs" />
     <Compile Include="Models\MyTelnetClient.cs" />

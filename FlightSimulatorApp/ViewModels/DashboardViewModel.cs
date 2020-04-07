@@ -16,6 +16,7 @@ namespace FlightSimulatorApp.ViewModels
             this.model = model;
             model.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e)
             {
+                Console.WriteLine("VM: 1) propName =  {0}", e.PropertyName);
                 NotifyPropertyChanged("VM_" + e.PropertyName);
             };
         }
@@ -24,6 +25,7 @@ namespace FlightSimulatorApp.ViewModels
 
         public void NotifyPropertyChanged(string propName)
         {
+            Console.WriteLine("VM: 2) propName =  {0}", propName);
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propName));
