@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Net.Sockets;
 
-namespace FlightSimulatorApp
+namespace FlightSimulatorApp.Models
 {
     class MyTelnetClient : ITelnetClient
     {
@@ -17,8 +14,6 @@ namespace FlightSimulatorApp
             try
             {
                 client = new TcpClient(ip, port);
-//                Console.WriteLine("Trying to connect to server");
-//                client.Connect(ip, port);
                 Console.WriteLine("Client is now connected to server");
             }
             catch

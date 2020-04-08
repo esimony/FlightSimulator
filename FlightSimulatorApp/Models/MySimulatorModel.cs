@@ -1,11 +1,7 @@
 ﻿using Microsoft.Maps.MapControl.WPF;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace FlightSimulatorApp.Models
 {
@@ -14,15 +10,15 @@ namespace FlightSimulatorApp.Models
         ITelnetClient telnetClient;
         volatile Boolean stop;
 
-        private double throttle = 0;
-        private double ailrone = 0;
-        private double rudder = 0;
-        private double elevator = 0;
+        private double throttle;
+        private double ailrone;
+        private double rudder;
+        private double elevator;
         private double heading;
         private double verticalSpeed;
         private double groundSpeed;
         private double airSpeed;
-        private double GPSaltitude;
+        private double altitude;
         private double roll;
         private double pitch;
         private double altimeter;
@@ -57,7 +53,6 @@ namespace FlightSimulatorApp.Models
                         message = telnetClient.read();
                         if (!message.Contains("ERR"))
                             Heading = Double.Parse(message);
-                        Heading = 5.45;
 
                         telnetClient.write("get /instrumentation/gps/indicated-vertical-speed\n");
                         message = telnetClient.read();
@@ -77,7 +72,7 @@ namespace FlightSimulatorApp.Models
                         telnetClient.write("get /instrumentation/gps/indicated-altitude-ft\n");
                         message = telnetClient.read();
                         if (!message.Contains("ERR"))
-                            GPSAltitude = Double.Parse(message);
+                            Altitude = Double.Parse(message);
 
                         telnetClient.write("get /instrumentation/attitude-indicator/internal-roll-deg\n");
                         message = telnetClient.read();
@@ -92,7 +87,7 @@ namespace FlightSimulatorApp.Models
                         telnetClient.write("get /instrumentation/altimeter/indicated-altitude-ft\n");
                         message = telnetClient.read();
                         if (!message.Contains("ERR"))
-                            AltimeterAlt = Double.Parse(message);
+                            Altimeter = Double.Parse(message);
 
                         telnetClient.write("get /position/latitude-deg\n");
                         message = telnetClient.read();
@@ -125,7 +120,6 @@ namespace FlightSimulatorApp.Models
                 if (heading != value)
                 {
                     heading = value;
-                    Console.WriteLine("Heading = {0}", heading);
                     NotifyPropertyChanged("Heading");
                 }
             }
@@ -170,15 +164,15 @@ namespace FlightSimulatorApp.Models
             }
         }
 
-        public double GPSAltitude
+        public double Altitude
         {
-            get { return GPSaltitude; }
+            get { return altitude; }
             set
             {
-                if (GPSaltitude != value)
+                if (altitude != value)
                 {
-                    GPSaltitude = value;
-                    NotifyPropertyChanged("GPSAltitude");
+                    altitude = value;
+                    NotifyPropertyChanged("Altitude");
                 }
             }
         }
@@ -209,7 +203,7 @@ namespace FlightSimulatorApp.Models
             }
         }
 
-        public double AltimeterAlt
+        public double Altimeter
         {
             get { return altimeter; }
             set
@@ -217,7 +211,7 @@ namespace FlightSimulatorApp.Models
                 if (altimeter != value)
                 {
                     altimeter = value;
-                    NotifyPropertyChanged("AltimeterAlt");
+                    NotifyPropertyChanged("Altimeter");
                 }
             }
         }
@@ -356,7 +350,9 @@ namespace FlightSimulatorApp.Models
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged(string propName) {
             if (this.PropertyChanged != null)
+            {
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            }
         }
     }
 }

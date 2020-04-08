@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FlightSimulatorApp.Models;
 
 namespace FlightSimulatorApp.ViewModels
 {
@@ -16,7 +17,6 @@ namespace FlightSimulatorApp.ViewModels
             this.model = model;
             model.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e)
             {
-                Console.WriteLine("VM: 1) propName =  {0}", e.PropertyName);
                 NotifyPropertyChanged("VM_" + e.PropertyName);
             };
         }
@@ -25,7 +25,6 @@ namespace FlightSimulatorApp.ViewModels
 
         public void NotifyPropertyChanged(string propName)
         {
-            Console.WriteLine("VM: 2) propName =  {0}", propName);
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propName));
@@ -54,7 +53,7 @@ namespace FlightSimulatorApp.ViewModels
 
         public double VM_Altitude
         {
-            get { return model.GPSAltitude; }
+            get { return model.Altitude; }
         }
 
         public double VM_Roll
@@ -69,7 +68,7 @@ namespace FlightSimulatorApp.ViewModels
 
         public double VM_Altimeter
         {
-            get { return model.AltimeterAlt; }
+            get { return model.Altimeter; }
         }
     }
 }
