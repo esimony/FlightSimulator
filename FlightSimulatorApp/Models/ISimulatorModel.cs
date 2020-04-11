@@ -18,8 +18,6 @@ namespace FlightSimulatorApp.Models
         double Roll { get; set; }
         double Pitch { get; set; }
         double Altimeter { get; set; }
-        //double Latitude { get; set; }
-        //double Longitude { get; set; }
         string Location { get; set; }
         double Throttle { get; set; }
         double Aileron { get; set; }

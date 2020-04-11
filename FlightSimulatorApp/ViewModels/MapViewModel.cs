@@ -32,18 +32,6 @@ namespace FlightSimulatorApp.ViewModels
             }
         }
 
-        // Properties
-        /*
-        public double vm_Latitude
-        {
-            get { return model.Latitude; }
-        }
-
-        public double vm_Longitude
-        {
-            get { return model.Longitude; }
-        }
-        */
         public string VM_Location
         {
             get

@@ -97,10 +97,9 @@ namespace FlightSimulatorApp.Models
                         telnetClient.write("get /position/longitude-deg\n");
                         message = telnetClient.read();
                         if (!message.Contains("ERR"))
-                        {
                             longitude = Double.Parse(message);
-                            Location = Convert.ToString(latitude + "," + longitude);
-                        }
+                        Location = Convert.ToString(latitude + "," + longitude);
+
                         Thread.Sleep(250);// read the data in 4Hz
                     }
                     catch
@@ -217,34 +216,6 @@ namespace FlightSimulatorApp.Models
                 }
             }
         }
-
-        /*
-        public double Latitude
-        {
-            get { return latitude; }
-            set
-            {
-                if (latitude != value)
-                {
-                    latitude = value;
-                    NotifyPropertyChanged("Latitude");
-                }
-            }
-        }
-
-        public double Longitude
-        {
-            get { return longitude; }
-            set
-            {
-                if (longitude != value)
-                {
-                    longitude = value;
-                    NotifyPropertyChanged("Longitude");
-                }
-            }
-        }
-        */
 
         public string Location
         {
