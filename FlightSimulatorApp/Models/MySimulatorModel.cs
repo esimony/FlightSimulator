@@ -24,7 +24,7 @@ namespace FlightSimulatorApp.Models
         private double altimeter;
         private double latitude;
         private double longitude;
-        private Location location;
+        private string location;
 
         public MySimulatorModel (ITelnetClient telnetClient) {
             this.telnetClient = telnetClient;
@@ -92,13 +92,15 @@ namespace FlightSimulatorApp.Models
                         telnetClient.write("get /position/latitude-deg\n");
                         message = telnetClient.read();
                         if (!message.Contains("ERR"))
-                            Latitude = Double.Parse(message);
+                            latitude = Double.Parse(message);
 
                         telnetClient.write("get /position/longitude-deg\n");
                         message = telnetClient.read();
                         if (!message.Contains("ERR"))
-                            Longitude = Double.Parse(message);
-
+                        {
+                            longitude = Double.Parse(message);
+                            Location = Convert.ToString(latitude + "," + longitude);
+                        }
                         Thread.Sleep(250);// read the data in 4Hz
                     }
                     catch
@@ -216,6 +218,7 @@ namespace FlightSimulatorApp.Models
             }
         }
 
+        /*
         public double Latitude
         {
             get { return latitude; }
@@ -241,8 +244,9 @@ namespace FlightSimulatorApp.Models
                 }
             }
         }
+        */
 
-        public Location Location
+        public string Location
         {
             get { return location; }
             set
