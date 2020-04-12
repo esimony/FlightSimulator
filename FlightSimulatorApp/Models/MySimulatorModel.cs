@@ -240,9 +240,9 @@ namespace FlightSimulatorApp.Models
                     throttle = 1;
                     NotifyPropertyChanged("Throttle");
                 }
-                else if (value < -1)
+                else if (value < 0)
                 {
-                    throttle = -1;
+                    throttle = 0;
                     NotifyPropertyChanged("Throttle");
                 }
                 else if (throttle != value)

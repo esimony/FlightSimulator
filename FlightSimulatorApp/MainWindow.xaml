@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:FlightSimulatorApp"
         mc:Ignorable="d"
         xmlns:Views="clr-namespace:FlightSimulatorApp.Views"
-        xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
         Title="MainWindow" Height="750" Width="1000">
     <Grid>
         <Grid.ColumnDefinitions>
