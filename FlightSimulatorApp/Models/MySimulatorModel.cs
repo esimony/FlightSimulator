@@ -113,6 +113,7 @@ namespace FlightSimulatorApp.Models
 
 
         // the properties implementation
+
         public double Heading
         {
             get { return heading; }
