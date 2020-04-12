@@ -24,26 +24,49 @@ namespace FlightSimulatorApp.Models
 
         public void disconnect()
         {
-            // Closig TCP client
-            client.Close();
+            try
+            {
+                // Closig TCP client
+                client.Close();
+            }
+            catch
+            {
+                Console.WriteLine("Error - could not disconnect from server");
+            }
         }
 
         public string read()
         {
-            // Declare a buffer to get the data bytes
-            Byte[] buffer = new byte[1024];
-            String dataString = string.Empty;
+            if (client != null)
+            {
+                // Declare a buffer to get the data bytes
+                Byte[] buffer = new byte[1024];
+                String dataString = string.Empty;
 
-            // Reading data bytes from client
-            int bytes = client.GetStream().Read(buffer, 0, buffer.Length);
+                try
+                {
+                    // Reading data bytes from client
+                    int bytes = client.GetStream().Read(buffer, 0, buffer.Length);
 
-            // Translating bytes into ASCII
-            dataString = Encoding.ASCII.GetString(buffer, 0, bytes);
-            
-            // Print recieved data
-            Console.WriteLine("Received data: {0}", dataString);
+                    // Translating bytes into ASCII
+                    dataString = Encoding.ASCII.GetString(buffer, 0, bytes);
 
-            return dataString;
+                    // Print recieved data
+                    Console.WriteLine("Received data: {0}", dataString);
+
+                    return dataString;
+                }
+                catch
+                {
+                    Console.WriteLine("Error - could not read from server");
+                    return "";
+                }
+            }
+            else
+            {
+                Console.WriteLine("Error - server not connected");
+                return "";
+            }
         }
 
         public void write(string command)
@@ -51,14 +74,21 @@ namespace FlightSimulatorApp.Models
             // Declare a buffer to get the data bytes
             Byte[] sentData;
 
-            // Translating bytes into ASCII
-            sentData = Encoding.ASCII.GetBytes(command);
+            if (client != null)
+            {
+                // Translating bytes into ASCII
+                sentData = Encoding.ASCII.GetBytes(command);
 
-            // Send data to server
-            client.GetStream().Write(sentData, 0, sentData.Length);
+                // Send data to server
+                client.GetStream().Write(sentData, 0, sentData.Length);
 
-            // Print sent data
-            Console.WriteLine("Sent data: {0}", command);
+                // Print sent data
+                Console.WriteLine("Sent data: {0}", command);
+            }
+            else
+            {
+                Console.WriteLine("Error - server not connected");
+            }
         }
     }
 }

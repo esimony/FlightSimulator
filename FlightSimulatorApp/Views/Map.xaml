@@ -10,7 +10,8 @@
     <Grid>
         <m:Map CredentialsProvider="KNb2QQlW7tEMpEKBt8fQ~K6enCIZunN9K2SKgHKtfog~Aspy4IyzSNwylc9HiGkKOnJx96eDR2bTM280wsfAusuFq1fPAlylMlM8kawmZfoi"
                Mode="AerialWithLabels" Center="32.0055, 34.8854" ZoomLevel="12" Grid.ColumnSpan="2" Margin="0,0,0.333,3.333" Grid.RowSpan="4">
-            <m:Pushpin Name="pos" Location="{Binding VM_Location}"></m:Pushpin>
+            <m:Pushpin Name="pos" Location="{Binding VM_Location}">
+            </m:Pushpin>
         </m:Map>
     </Grid>
 </UserControl>
