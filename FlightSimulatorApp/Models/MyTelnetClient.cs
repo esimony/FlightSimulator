@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace FlightSimulatorApp.Models
 {
@@ -8,6 +9,8 @@ namespace FlightSimulatorApp.Models
     {
         // TCP client
         private TcpClient client;
+        public Mutex mutex = new Mutex();
+        public bool isConnect = false;
 
         public void connect(string ip, int port)
         {
@@ -15,6 +18,7 @@ namespace FlightSimulatorApp.Models
             {
                 client = new TcpClient(ip, port);
                 Console.WriteLine("Client is now connected to server");
+                isConnect = true;
             }
             catch
             {
@@ -35,16 +39,27 @@ namespace FlightSimulatorApp.Models
             }
         }
 
-        public string read()
+        public string read(string command)
         {
+
             if (client != null)
             {
-                // Declare a buffer to get the data bytes
-                Byte[] buffer = new byte[1024];
-                String dataString = string.Empty;
-
                 try
                 {
+                    mutex.WaitOne();
+                    Byte[] sentData;
+
+                    // Translating bytes into ASCII
+                    sentData = Encoding.ASCII.GetBytes(command);
+
+                    // Send data to server
+                    client.GetStream().Write(sentData, 0, sentData.Length);
+
+                    // Print sent data
+                    // Declare a buffer to get the data bytes
+                    Byte[] buffer = new byte[1024];
+                    String dataString = string.Empty;
+
                     // Reading data bytes from client
                     int bytes = client.GetStream().Read(buffer, 0, buffer.Length);
 
@@ -53,7 +68,7 @@ namespace FlightSimulatorApp.Models
 
                     // Print recieved data
                     Console.WriteLine("Received data: {0}", dataString);
-
+                    mutex.ReleaseMutex();
                     return dataString;
                 }
                 catch
@@ -66,16 +81,17 @@ namespace FlightSimulatorApp.Models
             {
                 Console.WriteLine("Error - server not connected");
                 return "";
-            }
+            }           
         }
 
         public void write(string command)
         {
-            // Declare a buffer to get the data bytes
-            Byte[] sentData;
-
             if (client != null)
             {
+                mutex.WaitOne();
+                // Declare a buffer to get the data bytes
+                Byte[] sentData;
+
                 // Translating bytes into ASCII
                 sentData = Encoding.ASCII.GetBytes(command);
 
@@ -84,11 +100,19 @@ namespace FlightSimulatorApp.Models
 
                 // Print sent data
                 Console.WriteLine("Sent data: {0}", command);
+                byte[] buffer = new byte[1024];
+                client.GetStream().Read(buffer, 0, 1024);
+                string newData = Encoding.ASCII.GetString(buffer, 0, buffer.Length);
+                mutex.ReleaseMutex();
             }
             else
             {
                 Console.WriteLine("Error - server not connected");
             }
+        }
+        public bool getIsConnect()
+        {
+            return this.isConnect;
         }
     }
 }

@@ -22,12 +22,9 @@ namespace FlightSimulatorApp.Views
     /// </summary>
     public partial class Map : UserControl
     {
-        MapViewModel VMmap;
         public Map()
         {
             InitializeComponent();
-            VMmap = new MapViewModel((MySimulatorModel)Application.Current.Properties["model"]);
-            DataContext = VMmap;
         }
     }
 }

@@ -9,6 +9,8 @@ namespace FlightSimulatorApp.Models
     {
         ITelnetClient telnetClient;
         volatile Boolean stop;
+        public Mutex mutex = new Mutex();
+
 
         private double throttle;
         private double ailrone;
@@ -49,59 +51,48 @@ namespace FlightSimulatorApp.Models
                 {
                     try
                     {
-                        telnetClient.write("get /instrumentation/heading-indicator/indicated-heading-deg\n");
-                        message = telnetClient.read();
+                        message = telnetClient.read("get /instrumentation/heading-indicator/indicated-heading-deg\n");
                         if (!message.Contains("ERR"))
                             Heading = Double.Parse(message);
 
-                        telnetClient.write("get /instrumentation/gps/indicated-vertical-speed\n");
-                        message = telnetClient.read();
+                        message = telnetClient.read("get /instrumentation/gps/indicated-vertical-speed\n");
                         if (!message.Contains("ERR"))
                             VerticalSpeed = Double.Parse(message);
 
-                        telnetClient.write("get /instrumentation/gps/indicated-ground-speed-kt\n");
-                        message = telnetClient.read();
+                        message = telnetClient.read("get /instrumentation/gps/indicated-ground-speed-kt\n");
                         if (!message.Contains("ERR"))
                             GroundSpeed = Double.Parse(message);
 
-                        telnetClient.write("get /instrumentation/airspeed-indicator/indicated-speed-kt\n");
-                        message = telnetClient.read();
+                        message = telnetClient.read("get /instrumentation/airspeed-indicator/indicated-speed-kt\n");
                         if (!message.Contains("ERR"))
                             AirSpeed = Double.Parse(message);
 
-                        telnetClient.write("get /instrumentation/gps/indicated-altitude-ft\n");
-                        message = telnetClient.read();
+                        message = telnetClient.read("get /instrumentation/gps/indicated-altitude-ft\n");
                         if (!message.Contains("ERR"))
                             Altitude = Double.Parse(message);
 
-                        telnetClient.write("get /instrumentation/attitude-indicator/internal-roll-deg\n");
-                        message = telnetClient.read();
+                        message = telnetClient.read("get /instrumentation/attitude-indicator/internal-roll-deg\n");
                         if (!message.Contains("ERR"))
                             Roll = Double.Parse(message);
 
-                        telnetClient.write("get /instrumentation/attitude-indicator/internal-pitch-deg\n");
-                        message = telnetClient.read();
+                        message = telnetClient.read("get /instrumentation/attitude-indicator/internal-pitch-deg\n");
                         if (!message.Contains("ERR"))
                             Pitch = Double.Parse(message);
 
-                        telnetClient.write("get /instrumentation/altimeter/indicated-altitude-ft\n");
-                        message = telnetClient.read();
+                        message = telnetClient.read("get /instrumentation/altimeter/indicated-altitude-ft\n");
                         if (!message.Contains("ERR"))
                             Altimeter = Double.Parse(message);
 
-                        telnetClient.write("get /position/latitude-deg\n");
-                        message = telnetClient.read();
+                        message = telnetClient.read("get /position/latitude-deg\n");
                         if (!message.Contains("ERR"))
                             latitude = Double.Parse(message);
 
-                        telnetClient.write("get /position/longitude-deg\n");
-                        message = telnetClient.read();
+                        message = telnetClient.read("get /position/longitude-deg\n");
                         if (!message.Contains("ERR"))
                             longitude = Double.Parse(message);
                         Location = Convert.ToString(latitude + "," + longitude);
 
-                        // Read the data in 4Hz
-                        Thread.Sleep(250);
+                        Thread.Sleep(250);// read the data in 4Hz
                     }
                     catch
                     {
@@ -233,47 +224,47 @@ namespace FlightSimulatorApp.Models
 
         public double Throttle
         {
-            get { return throttle; }
+            //get { return throttle; }
             set
             {
                 if (value > 1)
                 {
                     throttle = 1;
-                    NotifyPropertyChanged("Throttle");
+                  //  NotifyPropertyChanged("Throttle");
                 }
                 else if (value < 0)
                 {
                     throttle = 0;
-                    NotifyPropertyChanged("Throttle");
+                   // NotifyPropertyChanged("Throttle");
                 }
                 else if (throttle != value)
                 {
                     throttle = value;
-                    NotifyPropertyChanged("Throttle");
                 }
+                string command = "set /controls/engines/current-engine/throttle " + throttle.ToString() + "\n";
+                this.telnetClient.write(command);
             }
         }
 
         public double Aileron
         {
-            get { return ailrone; }
             set
             {
                 if (value > 1)
                 {
                     ailrone = 1;
-                    NotifyPropertyChanged("Aileron");
                 }
                 else if (value < -1)
                 {
                     ailrone = -1;
-                    NotifyPropertyChanged("Aileron");
                 }
                 else if (ailrone != value)
                 {
                     ailrone = value;
-                    NotifyPropertyChanged("Aileron");
                 }
+                string command = "set /controls/flight/aileron " + ailrone.ToString() + "\n";
+                this.telnetClient.write(command);
+                //NotifyPropertyChanged("Aileron");
             }
         }
 
@@ -285,18 +276,20 @@ namespace FlightSimulatorApp.Models
                 if (value > 1)
                 {
                     rudder = 1;
-                    NotifyPropertyChanged("Rudder");
+                   // NotifyPropertyChanged("Rudder");
                 }
                 else if (value < -1)
                 {
                     rudder = -1;
-                    NotifyPropertyChanged("Rudder");
+                   // NotifyPropertyChanged("Rudder");
                 }
                 else if (rudder != value)
                 {
                     rudder = value;
-                    NotifyPropertyChanged("Rudder");
+                   // NotifyPropertyChanged("Rudder");
                 }
+                string command = "set /controls/flight/rudder " + rudder.ToString() + "\n";
+                this.telnetClient.write(command);
             }
         }
 
@@ -308,18 +301,28 @@ namespace FlightSimulatorApp.Models
                 if (value > 1)
                 {
                     elevator = 1;
-                    NotifyPropertyChanged("Elevator");
+                    //NotifyPropertyChanged("Elevator");
                 }
                 else if (value < -1)
                 {
                     elevator = -1;
-                    NotifyPropertyChanged("Elevator");
+                    //NotifyPropertyChanged("Elevator");
                 }
                 else if (elevator != value)
                 {
                     elevator = value;
-                    NotifyPropertyChanged("Elevator");
+                    //NotifyPropertyChanged("Elevator");
                 }
+                string command = "set /controls/flight/elevator " + elevator.ToString() + "\n";
+                this.telnetClient.write(command);
+            }
+        }
+
+        public bool Connect
+        {
+            get
+            {
+                return telnetClient.getIsConnect();
             }
         }
 

@@ -19,9 +19,11 @@ namespace FlightSimulatorApp.Models
         double Pitch { get; set; }
         double Altimeter { get; set; }
         string Location { get; set; }
-        double Throttle { get; set; }
-        double Aileron { get; set; }
+        double Throttle { set; }
+        double Aileron { set; }
         double Rudder { get; set; }
         double Elevator { get; set; }
+        bool Connect { get; }
+
     }
 }

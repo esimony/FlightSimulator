@@ -1,4 +1,6 @@
 ﻿using FlightSimulatorApp.Models;
+using FlightSimulatorApp.ViewModels;
+using FlightSimulatorApp.Views;
 using System.Windows;
 
 namespace FlightSimulatorApp
@@ -10,15 +12,23 @@ namespace FlightSimulatorApp
     {
         public MainWindow()
         {
-            MyTelnetClient telnetClient = new MyTelnetClient();
-
-            Application.Current.Properties["model"] = new MySimulatorModel(telnetClient);
-            MySimulatorModel mySimulator = (MySimulatorModel)Application.Current.Properties["model"];
-
-            telnetClient.connect("127.0.0.1", 5402);
-            mySimulator.start();
-
             InitializeComponent();
+
+
+        }
+
+        private void Ok_Click(object sender, RoutedEventArgs e)
+        {
+            View v = new View(port.Text, ip.Text);
+            v.Show();
+            this.Close();
+        }
+
+        private void Default_Click(object sender, RoutedEventArgs e)
+        {
+            View v = new View("5402", "127.0.0.1");
+            v.Show();
+            this.Close();
         }
     }
 }

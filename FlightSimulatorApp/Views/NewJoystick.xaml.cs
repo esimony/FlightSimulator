@@ -1,6 +1,4 @@
-﻿using FlightSimulatorApp.Models;
-using FlightSimulatorApp.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,14 +16,17 @@ using System.Windows.Shapes;
 namespace FlightSimulatorApp.Views
 {
     /// <summary>
-    /// Interaction logic for Dashboard.xaml
+    /// Interaction logic for NewJoystick.xaml
     /// </summary>
-    public partial class Dashboard : UserControl
+    public partial class NewJoystick : UserControl
     {
-        private DashboardViewModel dashVM;
-        public Dashboard()
+        public NewJoystick()
         {
             InitializeComponent();
+        }
+        private void Joystick_Loaded(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -20,12 +20,12 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Views:Joystick Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2"
-                        Grid.RowSpan="2" Margin="2.667,5.333,-2.667,-5.333">
-        </Views:Joystick>
-        <Views:Map Grid.ColumnSpan="2" Margin="-10,4,0.333,0.667" Grid.RowSpan="4"/>
-        <Views:Dashboard Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2"
-                        Grid.RowSpan="2">
-        </Views:Dashboard>
+        <TextBlock Text=" port:" FontSize="50" Grid.ColumnSpan="2" Margin="41,51,207.8,128.8" Grid.RowSpan="2"/>
+        <TextBox x:Name="port" Grid.Column="1" Padding="5" Margin="10,45,248.6,55.8" Text="0.0" FontSize="50" Grid.ColumnSpan="2"/>
+        <TextBlock Text=" ip" FontSize="50" Grid.ColumnSpan="2" Margin="72,46.2,176.8,132.8" Grid.RowSpan="2" Grid.Row="1"/>
+        <Button x:Name="Ok" Content="Ok" FontSize="50" Click="Ok_Click" Grid.ColumnSpan="2" Margin="128,0.2,120.8,178.8" Grid.Row="2" Grid.RowSpan="2"/>
+        <TextBox x:Name="ip" Grid.Column="1" Padding="5" Margin="10,43.2,248.6,54.8" Text="0.0" FontSize="50" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <Button x:Name="Default" Content="Default" FontSize="50" Grid.ColumnSpan="2" Margin="137.2,178.2,111.6,0.8" Grid.Row="1" Grid.RowSpan="2" Grid.Column="2" Click="Default_Click"/>
+
     </Grid>
 </Window>
