@@ -92,11 +92,12 @@ namespace FlightSimulatorApp.Models
                             longitude = Double.Parse(message);
                         Location = Convert.ToString(latitude + "," + longitude);
 
-                        Thread.Sleep(250);// read the data in 4Hz
+                        // Read the data in 4Hz
+                        Thread.Sleep(250);
                     }
                     catch
                     {
-                        Console.WriteLine("Could not get Heading-Deg value");
+                        Console.WriteLine("Could not get values");
                     }
                 }
             }).Start();
