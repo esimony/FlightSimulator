@@ -100,7 +100,8 @@ namespace FlightSimulatorApp.Models
                             longitude = Double.Parse(message);
                         Location = Convert.ToString(latitude + "," + longitude);
 
-                        Thread.Sleep(250);// read the data in 4Hz
+                        // Read the data in 4Hz
+                        Thread.Sleep(250);
                     }
                     catch
                     {
