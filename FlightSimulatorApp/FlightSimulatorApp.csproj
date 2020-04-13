@@ -152,5 +152,8 @@
   <ItemGroup>
     <Resource Include="Views\airplane.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="main_window_Background.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

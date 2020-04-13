@@ -31,16 +31,23 @@ namespace FlightSimulatorApp.Models
 
         private string timeoutError;
         private string connectionError;
+        private string formatError;
 
         public MySimulatorModel (ITelnetClient telnetClient) {
             this.telnetClient = telnetClient;
             stop = false;
             timeoutError = "";
             connectionError = "";
+            formatError = "";
     }
 
-        public void connect(string ip, int port) {
-            telnetClient.connect(ip, port);
+        public int connect(string ip, int port) {
+            if (telnetClient.connect(ip, port) != 0)
+            {
+                ConnectionError = "Could not connect to server";
+                return -1;
+            }
+            return 0;
         }
 
         public void disconnect() {
@@ -51,7 +58,7 @@ namespace FlightSimulatorApp.Models
         public void start()
         {
             new Thread(delegate () {
-                String message;
+                String message = String.Empty;
 
                 while (!stop)
                 {
@@ -105,6 +112,16 @@ namespace FlightSimulatorApp.Models
                     {
                         stop = true;
                         TimeoutError = "Reading timeout";
+                    }
+                    catch (FormatException)
+                    {
+                        if (message == "READFAILURE")
+                        {
+                            FormatError = "Connection to server lost";
+                            stop = true;
+                        }
+                        else if (message != "")
+                            FormatError = "Bad format";
                     }
                     catch
                     {
@@ -353,6 +370,19 @@ namespace FlightSimulatorApp.Models
                 {
                     timeoutError = value;
                     NotifyPropertyChanged("TimeoutError");
+                }
+            }
+        }
+
+        public string FormatError
+        {
+            get { return formatError; }
+            set
+            {
+                if (formatError != value)
+                {
+                    formatError = value;
+                    NotifyPropertyChanged("FormatError");
                 }
             }
         }

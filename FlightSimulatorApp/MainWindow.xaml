@@ -9,7 +9,7 @@
         Title="MainWindow" Height="750" Width="1000">
     <Grid Margin="0,0,1.6,-0.2">
         <Grid.Background>
-            <ImageBrush ImageSource="main_window_Background.jpg"/>
+            <ImageBrush ImageSource="main_window_background.jpg"/>
         </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -26,9 +26,9 @@
         <Label Content="Flight - Simulator" HorizontalAlignment="Left" Margin="6,14,0,0" VerticalAlignment="Top" FontSize="60" Grid.ColumnSpan="2" Width="489" Grid.Column="2"/>
         <Label Content=" Connect:" HorizontalAlignment="Center" Margin="31,170.2,41,0" VerticalAlignment="Top" FontSize="40" Grid.Row="1" Grid.RowSpan="2" />
         <Label Content=" port:" FontSize="40" Margin="37,64.2,55,39.8" Grid.Row="2"/>
-        <TextBox x:Name="port" Padding="5" Margin="174,74.2,133,48.8" Text="0" FontSize="35" Grid.ColumnSpan="2" Grid.Row="2"/>
+        <TextBox x:Name="port" Padding="5" Margin="174,74.2,133,48.8" Text="5402" FontSize="35" Grid.ColumnSpan="2" Grid.Row="2"/>
         <Label Content=" ip:" FontSize="40" Margin="87,134.2,5,149.8" Grid.Row="2" Grid.RowSpan="2"/>
-        <TextBox x:Name="ip" Padding="5" Margin="174,145.2,133,149.8" Text="0.0.0.0" FontSize="35" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+        <TextBox x:Name="ip" Padding="5" Margin="174,145.2,133,149.8" Text="127.0.0.1" FontSize="35" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
         <Button x:Name="Ok" Content="ok" FontSize="40" Click="Ok_Click" Margin="118,61.2,52,61.8" Grid.Row="3" Grid.Column="1"/>
         <Button x:Name="Default" Content="Default" FontSize="35" Margin="178,57.2,0,63.8" Grid.Row="3" Click="Default_Click" HorizontalAlignment="Left" Width="166" Grid.ColumnSpan="2"/>
         <Button x:Name="Exit" Content="Exit" FontSize="30"  Margin="106,61.2,64,61.8" Grid.Row="3" Grid.Column="3" Click="Exit_Click"/>

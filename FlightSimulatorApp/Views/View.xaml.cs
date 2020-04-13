@@ -33,8 +33,8 @@ namespace FlightSimulatorApp.Views
             DashboardViewModel dvm = new DashboardViewModel(mySimulator);
             ErrorViewModel evm = new ErrorViewModel(mySimulator);
             mvm = new MapViewModel((MySimulatorModel)Application.Current.Properties["model"]);
-            telnetClient.connect(ip, int.Parse(port));
-            mySimulator.start();
+            if (mySimulator.connect(ip, int.Parse(port)) == 0)
+                mySimulator.start();
 
 
             InitializeComponent();

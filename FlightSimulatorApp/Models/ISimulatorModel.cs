@@ -6,7 +6,7 @@ namespace FlightSimulatorApp.Models
     interface ISimulatorModel : INotifyPropertyChanged
     {
         // Connection to the simulator
-        void connect(string ip, int port);
+        int connect(string ip, int port);
         void disconnect();
         void start();
 
@@ -25,6 +25,7 @@ namespace FlightSimulatorApp.Models
         double Elevator { get; set; }
         string ConnectionError { get; set; }
         string TimeoutError { get; set; }
+        string FormatError { get; set; }
         bool Connect { get; }
 
     }

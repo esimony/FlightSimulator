@@ -48,5 +48,14 @@ namespace FlightSimulatorApp.ViewModels
                 model.TimeoutError = value;
             }
         }
+
+        public string VM_FormatError
+        {
+            get { return model.FormatError; }
+            set
+            {
+                model.FormatError = value;
+            }
+        }
     }
 }

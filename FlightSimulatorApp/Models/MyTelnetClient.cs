@@ -12,8 +12,10 @@ namespace FlightSimulatorApp.Models
         public Mutex mutex = new Mutex();
         public bool isConnect = false;
 
-        public void connect(string ip, int port)
+        public int connect(string ip, int port)
         {
+            int rc = 0;
+
             try
             {
                 client = new TcpClient(ip, port);
@@ -23,7 +25,10 @@ namespace FlightSimulatorApp.Models
             catch
             {
                 Console.WriteLine("Error - could not connect to server");
+                rc = -1;
             }
+
+            return rc;
         }
 
         public void disconnect()
@@ -41,7 +46,6 @@ namespace FlightSimulatorApp.Models
 
         public string read(string command)
         {
-
             if (client != null)
             {
                 try
@@ -74,14 +78,12 @@ namespace FlightSimulatorApp.Models
                 catch
                 {
                     Console.WriteLine("Error - could not read from server");
-                    return "";
+                    return "READFAILURE";
                 }
             }
-            else
-            {
-                Console.WriteLine("Error - server not connected");
-                return "";
-            }           
+
+            // Client not connected
+            return "NOTCONNECTED";
         }
 
         public void write(string command)
@@ -105,14 +107,11 @@ namespace FlightSimulatorApp.Models
                 string newData = Encoding.ASCII.GetString(buffer, 0, buffer.Length);
                 mutex.ReleaseMutex();
             }
-            else
-            {
-                Console.WriteLine("Error - server not connected");
-            }
         }
+
         public bool getIsConnect()
         {
-            return this.isConnect;
+            return isConnect;
         }
     }
 }
