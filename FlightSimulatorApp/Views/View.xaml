@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:FlightSimulatorApp"
         mc:Ignorable="d"
         xmlns:Views="clr-namespace:FlightSimulatorApp.Views"
-        Title="MainWindow" Height="750" Width="1000">
+        Title="View" Height="750" Width="1000">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -21,17 +21,20 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <!--Joystick view-->
         <Viewbox Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2"
                         Grid.RowSpan="2" Margin="2.667,5.333,-2.667,-5.333">
             <Views:NewJoystick x:Name="Joystick"/>
         </Viewbox>
-
+        <!--Map view-->
         <Views:Map x:Name="map" Grid.ColumnSpan="2" Margin="-10,4,0.333,0.667" Grid.RowSpan="4"/>
+        <!--Dashboard view-->
         <Views:Dashboard x:Name="dash" Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2"
                         Grid.RowSpan="2">
         </Views:Dashboard>
+        <!--Error view-->
         <Views:Errors x:Name="error" Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2" Grid.RowSpan="2">
         </Views:Errors>
-        <Button x:Name="disconnect" Content="Disconnect" Grid.Row="4" Click="disconnect_Click"/>
+        <Button x:Name="disconnect" Content="Disconnect" Grid.Row="4" Click="disconnect_Click" FontSize="25"/>
     </Grid>
 </Window>
