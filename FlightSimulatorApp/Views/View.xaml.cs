@@ -31,6 +31,7 @@ namespace FlightSimulatorApp.Views
             MySimulatorModel mySimulator = (MySimulatorModel)Application.Current.Properties["model"];
             JoystickViewModel jvm = new JoystickViewModel(mySimulator);
             DashboardViewModel dvm = new DashboardViewModel(mySimulator);
+            ErrorViewModel evm = new ErrorViewModel(mySimulator);
             mvm = new MapViewModel((MySimulatorModel)Application.Current.Properties["model"]);
             telnetClient.connect(ip, int.Parse(port));
             mySimulator.start();
@@ -39,6 +40,7 @@ namespace FlightSimulatorApp.Views
             InitializeComponent();
             Joystick.DataContext = jvm;
             dash.DataContext = dvm;
+            error.DataContext = evm;
             map.DataContext = mvm;
             disconnect.DataContext = mvm;
         }

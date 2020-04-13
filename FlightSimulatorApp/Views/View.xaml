@@ -30,6 +30,8 @@
         <Views:Dashboard x:Name="dash" Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2"
                         Grid.RowSpan="2">
         </Views:Dashboard>
+        <Views:Errors x:Name="error" Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2" Grid.RowSpan="2">
+        </Views:Errors>
         <Button x:Name="disconnect" Content="Disconnect" Grid.Row="4" Click="disconnect_Click"/>
     </Grid>
 </Window>

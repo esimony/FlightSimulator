@@ -1,6 +1,7 @@
 ﻿using Microsoft.Maps.MapControl.WPF;
 using System;
 using System.ComponentModel;
+using System.Net.Sockets;
 using System.Threading;
 
 namespace FlightSimulatorApp.Models
@@ -28,10 +29,15 @@ namespace FlightSimulatorApp.Models
         private double longitude;
         private string location;
 
+        private string timeoutError;
+        private string connectionError;
+
         public MySimulatorModel (ITelnetClient telnetClient) {
             this.telnetClient = telnetClient;
             stop = false;
-        }
+            timeoutError = "";
+            connectionError = "";
+    }
 
         public void connect(string ip, int port) {
             telnetClient.connect(ip, port);
@@ -95,9 +101,15 @@ namespace FlightSimulatorApp.Models
                         // Read the data in 4Hz
                         Thread.Sleep(250);
                     }
+                    catch (SocketException)
+                    {
+                        stop = true;
+                        TimeoutError = "Reading timeout";
+                    }
                     catch
                     {
-                        Console.WriteLine("Could not get values");
+                        stop = true;
+                        ConnectionError = "Server not connected";
                     }
                 }
             }).Start();
@@ -316,6 +328,32 @@ namespace FlightSimulatorApp.Models
                 }
                 string command = "set /controls/flight/elevator " + elevator.ToString() + "\n";
                 this.telnetClient.write(command);
+            }
+        }
+
+        public string ConnectionError
+        {
+            get { return connectionError; }
+            set
+            {
+                if (connectionError != value)
+                {
+                    connectionError = value;
+                    NotifyPropertyChanged("ConnectionError");
+                }
+            }
+        }
+
+        public string TimeoutError
+        {
+            get { return timeoutError; }
+            set
+            {
+                if (timeoutError != value)
+                {
+                    timeoutError = value;
+                    NotifyPropertyChanged("TimeoutError");
+                }
             }
         }
 

@@ -23,6 +23,8 @@ namespace FlightSimulatorApp.Models
         double Aileron { set; }
         double Rudder { get; set; }
         double Elevator { get; set; }
+        string ConnectionError { get; set; }
+        string TimeoutError { get; set; }
         bool Connect { get; }
 
     }

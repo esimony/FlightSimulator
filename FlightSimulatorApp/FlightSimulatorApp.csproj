@@ -65,10 +65,14 @@
     <Compile Include="Models\MySimulatorModel.cs" />
     <Compile Include="Models\MyTelnetClient.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
+    <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\JoystickViewModel.cs" />
     <Compile Include="ViewModels\MapViewModel.cs" />
     <Compile Include="Views\Dashboard.xaml.cs">
       <DependentUpon>Dashboard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Errors.xaml.cs">
+      <DependentUpon>Errors.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Joystick.xaml.cs">
       <DependentUpon>Joystick.xaml</DependentUpon>
@@ -95,6 +99,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\Dashboard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Errors.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
