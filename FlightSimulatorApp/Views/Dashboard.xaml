@@ -23,14 +23,14 @@
         </Grid.RowDefinitions>
 
         <!-- The DashBoard table-->
-        <TextBlock Text="Heading:"        Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" FontSize="20" FontWeight ="Bold"/>
-        <TextBlock Text="Vertical speed:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" FontSize="20" FontWeight ="Bold"/>
-        <TextBlock Text="Ground speed:"   Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" FontSize="20" FontWeight ="Bold"/>
-        <TextBlock Text="Air speed:"      Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" FontSize="20" FontWeight ="Bold"/>
-        <TextBlock Text="GPS Altitude:"   Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" FontSize="20" FontWeight ="Bold"/>
-        <TextBlock Text="Roll:"           Grid.Column="0" Grid.Row="5" HorizontalAlignment="Center" FontSize="20" FontWeight ="Bold"/>
-        <TextBlock Text="Pitch:"          Grid.Column="0" Grid.Row="6" HorizontalAlignment="Center" FontSize="20" FontWeight ="Bold"/>
-        <TextBlock Text="Altimiter:"      Grid.Column="0" Grid.Row="7" HorizontalAlignment="Center" FontSize="20" FontWeight ="Bold"/>
+        <TextBlock Text="Heading:"        Grid.Column="0" Grid.Row="0" FontSize="20" FontWeight ="Bold"/>
+        <TextBlock Text="Vertical speed:" Grid.Column="0" Grid.Row="1"  FontSize="20" FontWeight ="Bold"/>
+        <TextBlock Text="Ground speed:"   Grid.Column="0" Grid.Row="2"  FontSize="20" FontWeight ="Bold"/>
+        <TextBlock Text="Air speed:"      Grid.Column="0" Grid.Row="3"  FontSize="20" FontWeight ="Bold"/>
+        <TextBlock Text="GPS Altitude:"   Grid.Column="0" Grid.Row="4"  FontSize="20" FontWeight ="Bold"/>
+        <TextBlock Text="Roll:"           Grid.Column="0" Grid.Row="5" FontSize="20" FontWeight ="Bold"/>
+        <TextBlock Text="Pitch:"          Grid.Column="0" Grid.Row="6" FontSize="20" FontWeight ="Bold"/>
+        <TextBlock Text="Altimiter:"      Grid.Column="0" Grid.Row="7" FontSize="20" FontWeight ="Bold"/>
         
         <!-- The DashBoard values-->
         <TextBlock Text="{Binding VM_Heading,       Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" FontSize="20" />

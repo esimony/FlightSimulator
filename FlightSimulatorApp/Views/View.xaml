@@ -30,7 +30,7 @@
         <Views:Map x:Name="map" Grid.ColumnSpan="2" Margin="-10,4,0.333,0.667" Grid.RowSpan="4"/>
         <!--Dashboard view-->
         <Views:Dashboard x:Name="dash" Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2"
-                        Grid.RowSpan="2">
+                        Grid.RowSpan="3" Margin="66.667,0,0.333,143.667">
         </Views:Dashboard>
         <!--Error view-->
         <Views:Errors x:Name="error" Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2" Grid.RowSpan="2">
