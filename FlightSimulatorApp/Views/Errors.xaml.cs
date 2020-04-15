@@ -21,7 +21,6 @@ namespace FlightSimulatorApp.Views
     /// </summary>
     public partial class Errors : UserControl
     {
-        private ErrorViewModel errorVM;
         public Errors()
         {
             InitializeComponent();

@@ -1,5 +1,4 @@
-﻿using Microsoft.Maps.MapControl.WPF;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Net.Sockets;
 using System.Threading;
@@ -8,9 +7,10 @@ namespace FlightSimulatorApp.Models
 {
     class MySimulatorModel : ISimulatorModel
     {
-        ITelnetClient telnetClient;
-        volatile Boolean stop;
+        private ITelnetClient telnetClient;
+        volatile bool stop;
         public Mutex mutex = new Mutex();
+        private bool changed;
 
 
         private double throttle;
@@ -39,12 +39,12 @@ namespace FlightSimulatorApp.Models
             timeoutError = "";
             connectionError = "";
             formatError = "";
-    }
+        }
 
         public int connect(string ip, int port) {
             if (telnetClient.connect(ip, port) != 0)
             {
-                ConnectionError = "Could not connect to server";
+                ConnectionError = "Could not connect to server \nclick disconnect and try again";
                 return -1;
             }
             return 0;
@@ -117,7 +117,7 @@ namespace FlightSimulatorApp.Models
                     {
                         if (message == "READFAILURE")
                         {
-                            FormatError = "Connection to server lost";
+                            FormatError = "Connection to server lost \nclick disconnect and try again";
                             stop = true;
                         }
                         else if (message != "")
@@ -254,25 +254,27 @@ namespace FlightSimulatorApp.Models
 
         public double Throttle
         {
-            //get { return throttle; }
             set
             {
+                changed = false;
                 if (value > 1)
                 {
                     throttle = 1;
-                  //  NotifyPropertyChanged("Throttle");
                 }
                 else if (value < 0)
                 {
                     throttle = 0;
-                   // NotifyPropertyChanged("Throttle");
                 }
                 else if (throttle != value)
                 {
                     throttle = value;
+                    changed = true;
                 }
                 string command = "set /controls/engines/current-engine/throttle " + throttle.ToString() + "\n";
-                this.telnetClient.write(command);
+                if (changed)
+                {
+                    this.telnetClient.write(command);
+                }
             }
         }
 
@@ -280,6 +282,7 @@ namespace FlightSimulatorApp.Models
         {
             set
             {
+                changed = false;
                 if (value > 1)
                 {
                     ailrone = 1;
@@ -291,32 +294,31 @@ namespace FlightSimulatorApp.Models
                 else if (ailrone != value)
                 {
                     ailrone = value;
+                    changed = true;
                 }
                 string command = "set /controls/flight/aileron " + ailrone.ToString() + "\n";
-                this.telnetClient.write(command);
-                //NotifyPropertyChanged("Aileron");
+                if (changed)
+                {
+                    this.telnetClient.write(command);
+                }
             }
         }
 
         public double Rudder
         {
-            get { return rudder; }
             set
             {
                 if (value > 1)
                 {
                     rudder = 1;
-                   // NotifyPropertyChanged("Rudder");
                 }
                 else if (value < -1)
                 {
                     rudder = -1;
-                   // NotifyPropertyChanged("Rudder");
                 }
                 else if (rudder != value)
                 {
                     rudder = value;
-                   // NotifyPropertyChanged("Rudder");
                 }
                 string command = "set /controls/flight/rudder " + rudder.ToString() + "\n";
                 this.telnetClient.write(command);
@@ -325,23 +327,19 @@ namespace FlightSimulatorApp.Models
 
         public double Elevator
         {
-            get { return elevator; }
             set
             {
                 if (value > 1)
                 {
                     elevator = 1;
-                    //NotifyPropertyChanged("Elevator");
                 }
                 else if (value < -1)
                 {
                     elevator = -1;
-                    //NotifyPropertyChanged("Elevator");
                 }
                 else if (elevator != value)
                 {
                     elevator = value;
-                    //NotifyPropertyChanged("Elevator");
                 }
                 string command = "set /controls/flight/elevator " + elevator.ToString() + "\n";
                 this.telnetClient.write(command);

@@ -21,8 +21,8 @@ namespace FlightSimulatorApp.Models
         string Location { get; set; }
         double Throttle { set; }
         double Aileron { set; }
-        double Rudder { get; set; }
-        double Elevator { get; set; }
+        double Rudder { set; }
+        double Elevator { set; }
         string ConnectionError { get; set; }
         string TimeoutError { get; set; }
         string FormatError { get; set; }

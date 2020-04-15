@@ -12,10 +12,10 @@
         </local:Joystick>
         <!-- values of the joystick -->
         <!-- Rudder -->
-        <Label Content="Rudder" HorizontalAlignment="Left" Margin="311,10,0,0" VerticalAlignment="Top" Height="32" Width="71" FontSize="16"/>
-        <TextBlock x:Name="RudderView" Text="{Binding ElementName=js, Path=Rudder, Mode=OneWay, StringFormat=0.0#}" Margin="389,14,289,407" FontSize="16" FontWeight="Bold"/>
+        <Label Content="Rudder" HorizontalAlignment="Left" Margin="311,9,0,0" VerticalAlignment="Top" Height="33" Width="78" FontSize="20"/>
+        <TextBlock x:Name="RudderView" Text="{Binding ElementName=js, Path=Rudder, Mode=OneWay, StringFormat=0.0#}" Margin="391,17,287,404" FontSize="16" FontWeight="Bold"/>
         <!-- Elevator -->
-        <Label Content="Elevator" HorizontalAlignment="Left" Margin="525,212,0,0" VerticalAlignment="Top" Height="30" Width="71" RenderTransformOrigin="0.5,0.5" FontSize="16">
+        <Label Content="Elevator" HorizontalAlignment="Left" Margin="522,218,0,0" VerticalAlignment="Top" Height="32" Width="85" RenderTransformOrigin="0.5,0.5" FontSize="20">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -38,11 +38,11 @@
                 </TransformGroup>
             </Slider.RenderTransform>
         </Slider>
-        <Label Content="Throttle" HorizontalAlignment="Left" Margin="36,361,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <TextBlock x:Name="ThrottleView" Text="{Binding ElementName=ThrottleSlider, Path=Value, StringFormat=0.0#}" Margin="108,366,563,54" FontSize="16" FontWeight="Bold"/>
+        <Label Content="Throttle" HorizontalAlignment="Left" Margin="36,361,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <TextBlock x:Name="ThrottleView" Text="{Binding ElementName=ThrottleSlider, Path=Value, StringFormat=0.0#}" Margin="123,370,548,50" FontSize="16" FontWeight="Bold"/>
         <!-- Aileron -->
         <Slider x:Name="AileronSlider" Value="{Binding VM_Aileron ,Mode = OneWayToSource}" HorizontalAlignment="Left" Margin="429,401,0,0" VerticalAlignment="Top" Height="34" Width="275" Maximum="1" Minimum="-1" />
-        <Label Content="Aileron" HorizontalAlignment="Left" Margin="511,361,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <TextBlock x:Name="AileronView" Text="{Binding ElementName=AileronSlider, Path=Value, StringFormat=0.0#}" Margin="577,366,97,49" FontSize="16" FontWeight="Bold"/>
+        <Label Content="Aileron" HorizontalAlignment="Left" Margin="511,361,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <TextBlock x:Name="AileronView" Text="{Binding ElementName=AileronSlider, Path=Value, StringFormat=0.0#}" Margin="591,370,83,45" FontSize="16" FontWeight="Bold"/>
     </Grid>
 </UserControl>

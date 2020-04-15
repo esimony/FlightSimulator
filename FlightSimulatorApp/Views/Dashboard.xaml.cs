@@ -22,7 +22,6 @@ namespace FlightSimulatorApp.Views
     /// </summary>
     public partial class Dashboard : UserControl
     {
-        private DashboardViewModel dashVM;
         public Dashboard()
         {
             InitializeComponent();

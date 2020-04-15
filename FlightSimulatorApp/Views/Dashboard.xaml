@@ -30,7 +30,7 @@
         <TextBlock Text="GPS Altitude:"   Grid.Column="0" Grid.Row="4"  FontSize="20" FontWeight ="Bold"/>
         <TextBlock Text="Roll:"           Grid.Column="0" Grid.Row="5" FontSize="20" FontWeight ="Bold"/>
         <TextBlock Text="Pitch:"          Grid.Column="0" Grid.Row="6" FontSize="20" FontWeight ="Bold"/>
-        <TextBlock Text="Altimiter:"      Grid.Column="0" Grid.Row="7" FontSize="20" FontWeight ="Bold"/>
+        <TextBlock Text="Altimiter:"      Grid.Column="0" Grid.Row="7" FontSize="20" FontWeight ="Bold"/>        
         
         <!-- The DashBoard values-->
         <TextBlock Text="{Binding VM_Heading,       Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" FontSize="20" />
@@ -41,6 +41,6 @@
         <TextBlock Text="{Binding VM_Roll,          Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Center" FontSize="20" />
         <TextBlock Text="{Binding VM_Pitch,         Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Center" FontSize="20" />
         <TextBlock Text="{Binding VM_Altimeter,     Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="7" HorizontalAlignment="Center" FontSize="20" />
-
+        
     </Grid>
 </UserControl>
