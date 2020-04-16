@@ -18,7 +18,7 @@ namespace FlightSimulatorApp.Models
 
             try
             {
-                client = new TcpClient(ip, port);
+                client = new TcpClient();
                 Console.WriteLine("Client is now connected to server");
                 isConnect = true;
             }
@@ -28,6 +28,9 @@ namespace FlightSimulatorApp.Models
                 rc = -1;
             }
 
+            client.SendTimeout = 10000;
+            client.ReceiveTimeout = 10000;
+            client.Connect(ip, port);
             return rc;
         }
 
@@ -75,10 +78,19 @@ namespace FlightSimulatorApp.Models
                     mutex.ReleaseMutex();
                     return dataString;
                 }
-                catch
+                catch (Exception e)
                 {
-                    Console.WriteLine("Error - could not read from server");
-                    return "READFAILURE";
+                    Console.WriteLine(e);
+                    if (e.ToString().Contains("closed"))
+                    {
+                        Console.WriteLine("Error - server closed");
+                        return "READFAILURE";
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error - read timeout");
+                        return "TIMEOUT";
+                    }
                 }
             }
 
@@ -90,22 +102,29 @@ namespace FlightSimulatorApp.Models
         {
             if (client != null)
             {
-                mutex.WaitOne();
-                // Declare a buffer to get the data bytes
-                Byte[] sentData;
+                try
+                {
+                    mutex.WaitOne();
+                    // Declare a buffer to get the data bytes
+                    Byte[] sentData;
 
-                // Translating bytes into ASCII
-                sentData = Encoding.ASCII.GetBytes(command);
+                    // Translating bytes into ASCII
+                    sentData = Encoding.ASCII.GetBytes(command);
 
-                // Send data to server
-                client.GetStream().Write(sentData, 0, sentData.Length);
+                    // Send data to server
+                    client.GetStream().Write(sentData, 0, sentData.Length);
 
-                // Print sent data
-                Console.WriteLine("Sent data: {0}", command);
-                byte[] buffer = new byte[1024];
-                client.GetStream().Read(buffer, 0, 1024);
-                string newData = Encoding.ASCII.GetString(buffer, 0, buffer.Length);
-                mutex.ReleaseMutex();
+                    // Print sent data
+                    Console.WriteLine("Sent data: {0}", command);
+                    byte[] buffer = new byte[1024];
+                    client.GetStream().Read(buffer, 0, 1024);
+                    string newData = Encoding.ASCII.GetString(buffer, 0, buffer.Length);
+                    mutex.ReleaseMutex();
+                }
+                catch
+                {
+                    Console.WriteLine("Error - could not write to server");
+                }
             }
         }
 

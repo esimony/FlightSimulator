@@ -12,7 +12,6 @@ namespace FlightSimulatorApp.Models
         public Mutex mutex = new Mutex();
         private bool changed;
 
-
         private double throttle;
         private double ailrone;
         private double rudder;
@@ -32,6 +31,7 @@ namespace FlightSimulatorApp.Models
         private string timeoutError;
         private string connectionError;
         private string formatError;
+        private string limitError;
 
         public MySimulatorModel (ITelnetClient telnetClient) {
             this.telnetClient = telnetClient;
@@ -39,6 +39,7 @@ namespace FlightSimulatorApp.Models
             timeoutError = "";
             connectionError = "";
             formatError = "";
+            limitError = "";
         }
 
         public int connect(string ip, int port) {
@@ -98,11 +99,35 @@ namespace FlightSimulatorApp.Models
 
                         message = telnetClient.read("get /position/latitude-deg\n");
                         if (!message.Contains("ERR"))
+                        {
                             latitude = Double.Parse(message);
+                            if (latitude >= 90)
+                            {
+                                latitude = 90;
+                                LimitError = "Plane has gotten to limit";
+                            }
+                            else if (latitude <= -90)
+                            {
+                                latitude = -90;
+                                LimitError = "Plane has gotten to limit";
+                            }
+                        }
 
                         message = telnetClient.read("get /position/longitude-deg\n");
                         if (!message.Contains("ERR"))
+                        {
                             longitude = Double.Parse(message);
+                            if (longitude >= 180)
+                            {
+                                longitude = 180;
+                                LimitError = "Plane has gotten to limit";
+                            }
+                            else if (longitude <= -180)
+                            {
+                                longitude = -180;
+                                LimitError = "Plane has gotten to limit";
+                            }
+                        }
                         Location = Convert.ToString(latitude + "," + longitude);
 
                         // Read the data in 4Hz
@@ -120,13 +145,18 @@ namespace FlightSimulatorApp.Models
                             FormatError = "Connection to server lost \nclick disconnect and try again";
                             stop = true;
                         }
+                        else if (message == "TIMEOUT")
+                        {
+                            TimeoutError = "Reading timeout";
+                            stop = true;
+                        }
                         else if (message != "")
                             FormatError = "Bad format";
                     }
                     catch
                     {
                         stop = true;
-                        ConnectionError = "Server not connected";
+                        TimeoutError = "Reading timeout";
                     }
                 }
             }).Start();
@@ -381,6 +411,19 @@ namespace FlightSimulatorApp.Models
                 {
                     formatError = value;
                     NotifyPropertyChanged("FormatError");
+                }
+            }
+        }
+
+        public string LimitError
+        {
+            get { return limitError; }
+            set
+            {
+                if (limitError != value)
+                {
+                    limitError = value;
+                    NotifyPropertyChanged("LimitError");
                 }
             }
         }

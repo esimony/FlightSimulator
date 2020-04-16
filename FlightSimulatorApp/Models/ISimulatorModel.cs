@@ -26,6 +26,7 @@ namespace FlightSimulatorApp.Models
         string ConnectionError { get; set; }
         string TimeoutError { get; set; }
         string FormatError { get; set; }
+        string LimitError { get; set; }
         bool Connect { get; }
 
     }
