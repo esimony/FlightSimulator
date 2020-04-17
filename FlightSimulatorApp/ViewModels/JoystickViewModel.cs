@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using FlightSimulatorApp.Models;
+using System;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FlightSimulatorApp.Models;
-
-// TODO: IMPLEMENT THIS!!
 
 namespace FlightSimulatorApp.ViewModels
 {
@@ -14,6 +8,7 @@ namespace FlightSimulatorApp.ViewModels
     {
         private ISimulatorModel model;
 
+        // Constructor.
         public JoystickViewModel(ISimulatorModel model)
         {
             this.model = model;
@@ -33,16 +28,12 @@ namespace FlightSimulatorApp.ViewModels
             }
         }
 
+        // The properties implementation.
         public double VM_Throttle
         {
-          //  get { return throttle; }
             set
             {
-               // throttle = value;
                 model.Throttle = value;
-                //string msg = "set /controls/engines/current-engine/throttle " + value.ToString() + "\n";
-                //model.sendSetRequest(msg, "Throttle");
-                //NotifyPropertyChanged("VM_Throttle");
             }
         }
 
@@ -51,9 +42,6 @@ namespace FlightSimulatorApp.ViewModels
             set
             {
                 model.Aileron = value;
-                //string msg = "set /controls/flight/aileron " + value.ToString() + "\n";
-                //model.sendSetRequest(msg, "Aileron");
-                //NotifyPropertyChanged("VM_Airelon");
             }
         }
 
@@ -61,10 +49,7 @@ namespace FlightSimulatorApp.ViewModels
         {
             set
             {
-               // rudder = value;
                 model.Rudder = value;
-                //string msg = "set /controls/flight/rudder " + value.ToString() + "\n";
-                //model.sendSetRequest(msg, "Rudder");
                 NotifyPropertyChanged("VM_Rudder");
             }
         }
@@ -73,11 +58,7 @@ namespace FlightSimulatorApp.ViewModels
         {
             set
             {
-                //elevator = value;
                 model.Elevator = value;
-                //string msg = "set /controls/flight/elevator " + value.ToString() + "\n";
-                //model.sendSetRequest(msg, "Elevator");
-                //NotifyPropertyChanged("VM_Elevator");
             }
         }
     }

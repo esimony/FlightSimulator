@@ -1,10 +1,6 @@
 ﻿using FlightSimulatorApp.Models;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FlightSimulatorApp.ViewModels
 {
@@ -12,6 +8,7 @@ namespace FlightSimulatorApp.ViewModels
     {
         private ISimulatorModel model;
 
+        // Constructor.
         public ErrorViewModel(ISimulatorModel model)
         {
             this.model = model;
@@ -31,6 +28,7 @@ namespace FlightSimulatorApp.ViewModels
             }
         }
 
+        // The properties implementation.
         public string VM_Error
         {
             get { return model.Error; }

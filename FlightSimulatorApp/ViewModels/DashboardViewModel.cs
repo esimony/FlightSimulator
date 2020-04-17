@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using FlightSimulatorApp.Models;
+using System;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FlightSimulatorApp.Models;
 
 namespace FlightSimulatorApp.ViewModels
 {
@@ -12,6 +8,7 @@ namespace FlightSimulatorApp.ViewModels
     {
         private ISimulatorModel model;
 
+        // Constructor.
         public DashboardViewModel(ISimulatorModel model)
         {
             this.model = model;
@@ -30,6 +27,8 @@ namespace FlightSimulatorApp.ViewModels
                 PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }
         }
+
+        // The properties implementation.
 
         public double VM_Heading
         {

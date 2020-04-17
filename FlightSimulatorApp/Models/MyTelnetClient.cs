@@ -16,6 +16,7 @@ namespace FlightSimulatorApp.Models
         {
             int rc = 0;
 
+            // Try to connect to server and set timeout.
             try
             {
                 client = new TcpClient();
@@ -46,6 +47,7 @@ namespace FlightSimulatorApp.Models
             }
         }
 
+        // Blocking call.
         public string read(string command)
         {
             if (client != null)
@@ -80,16 +82,19 @@ namespace FlightSimulatorApp.Models
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
+                    // Server closed.
                     if (e.ToString().Contains("closed"))
                     {
                         Console.WriteLine("Error - server closed");
                         return "READFAILURE";
                     }
+                    // Read timeout.
                     else if (e.ToString().Contains("time"))
                     {
                         Console.WriteLine("Error - read timeout");
                         return "TIMEOUT";
                     }
+                    // A general error occured
                     else
                     {
                         Console.WriteLine("Error - general failure");

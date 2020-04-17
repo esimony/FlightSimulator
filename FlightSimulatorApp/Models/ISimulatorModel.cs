@@ -10,6 +10,7 @@ namespace FlightSimulatorApp.Models
         void disconnect();
         void start();
 
+        // Define properties implementation.
         double Heading { get; set; }
         double VerticalSpeed { get; set; }
         double GroundSpeed { get; set; }

@@ -11,7 +11,8 @@ namespace FlightSimulatorApp.Models
     {
         int connect(string ip, int port);
         void write(string command);
-        string read(string command);  // blocking call
+        // Read is blocking call.
+        string read(string command);
         void disconnect();
         bool getIsConnect();
     }

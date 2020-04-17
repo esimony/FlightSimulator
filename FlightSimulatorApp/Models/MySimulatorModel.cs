@@ -37,6 +37,7 @@ namespace FlightSimulatorApp.Models
         }
 
         public int connect(string ip, int port) {
+            // Try to connect to server.
             if (telnetClient.connect(ip, port) != 0)
             {
                 Error = "Could not connect to server \nclick disconnect and try again";
@@ -46,6 +47,7 @@ namespace FlightSimulatorApp.Models
         }
 
         public void disconnect() {
+            // Disconnect from server.
             stop = true;
             telnetClient.disconnect();
         }
@@ -57,67 +59,98 @@ namespace FlightSimulatorApp.Models
 
                 while (!stop)
                 {
+                    // Read all values from server.
+                    // If the value is not valid - print a message. else, convert it to double.
                     try
                     {
                         message = telnetClient.read("get /instrumentation/heading-indicator/indicated-heading-deg\n");
                         if (message.Contains("ERR"))
+                        {
                             Error = "Heading value is err";
+                            Thread.Sleep(250);
+                        }
                         else
                             Heading = Double.Parse(message);
 
                         message = telnetClient.read("get /instrumentation/gps/indicated-vertical-speed\n");
                         if (message.Contains("ERR"))
+                        {
                             Error = "Vertical Speed value is err";
+                            Thread.Sleep(250);
+                        }
                         else
                             VerticalSpeed = Double.Parse(message);
 
                         message = telnetClient.read("get /instrumentation/gps/indicated-ground-speed-kt\n");
                         if (message.Contains("ERR"))
+                        {
                             Error = "Ground Speed value is err";
+                            Thread.Sleep(250);
+                        }
                         else
                             GroundSpeed = Double.Parse(message);
 
                         message = telnetClient.read("get /instrumentation/airspeed-indicator/indicated-speed-kt\n");
                         if (message.Contains("ERR"))
+                        {
                             Error = "Air Speed value is err";
+                            Thread.Sleep(250);
+                        }
                         else
                             AirSpeed = Double.Parse(message);
 
                         message = telnetClient.read("get /instrumentation/gps/indicated-altitude-ft\n");
                         if (message.Contains("ERR"))
+                        {
                             Error = "Altitude value is err";
+                            Thread.Sleep(250);
+                        }
                         else
                             Altitude = Double.Parse(message);
 
                         message = telnetClient.read("get /instrumentation/attitude-indicator/internal-roll-deg\n");
                         if (message.Contains("ERR"))
+                        {
                             Error = "Roll value is err";
+                            Thread.Sleep(250);
+                        }
                         else
                             Roll = Double.Parse(message);
 
                         message = telnetClient.read("get /instrumentation/attitude-indicator/internal-pitch-deg\n");
                         if (message.Contains("ERR"))
+                        {
                             Error = "Pitch value is err";
+                            Thread.Sleep(250);
+                        }
                         else
                             Pitch = Double.Parse(message);
 
                         message = telnetClient.read("get /instrumentation/altimeter/indicated-altitude-ft\n");
                         if (message.Contains("ERR"))
+                        {
                             Error = "Altimeter value is err";
+                            Thread.Sleep(250);
+                        }
                         else
                             Altimeter = Double.Parse(message);
 
                         message = telnetClient.read("get /position/latitude-deg\n");
                         if (message.Contains("ERR"))
+                        {
                             Error = "Latitude value is err";
+                            Thread.Sleep(250);
+                        }
                         else
                         {
                             latitude = Double.Parse(message);
+                            // If value is bigger then the limit - make the latitude be equal to limit.
                             if (latitude >= 90)
                             {
                                 latitude = 90;
                                 Error = "Plane has gotten to limit";
                             }
+                            // If value is smaller then the limit - make the latitude be equal to limit.
                             else if (latitude <= -90)
                             {
                                 latitude = -90;
@@ -127,15 +160,20 @@ namespace FlightSimulatorApp.Models
 
                         message = telnetClient.read("get /position/longitude-deg\n");
                         if (message.Contains("ERR"))
+                        {
                             Error = "Longitude value is err";
+                            Thread.Sleep(250);
+                        }
                         else
                         {
                             longitude = Double.Parse(message);
+                            // If value is bigger then the limit - make the longitude be equal to limit.
                             if (longitude >= 180)
                             {
                                 longitude = 180;
                                 Error = "Plane has gotten to limit";
                             }
+                            // If value is smaller then the limit - make the longitude be equal to limit.
                             else if (longitude <= -180)
                             {
                                 longitude = -180;
@@ -144,7 +182,7 @@ namespace FlightSimulatorApp.Models
                         }
                         Location = Convert.ToString(latitude + "," + longitude);
 
-                        // Read the data in 4Hz
+                        // Read the data in 4Hz.
                         Thread.Sleep(250);
                     }
                     catch (SocketException)
@@ -154,11 +192,13 @@ namespace FlightSimulatorApp.Models
                     }
                     catch (FormatException f)
                     {
+                        // Connection to server lost.
                         if (message == "READFAILURE")
                         {
                             Error = "Connection to server lost \nclick disconnect and try again";
                             stop = true;
                         }
+                        // Server did not sent values for more then 10 seconds.
                         else if (message == "TIMEOUT")
                         {
                             Error = "Read timeout";
@@ -169,6 +209,7 @@ namespace FlightSimulatorApp.Models
                             Error = "Socket failure occured";
                             stop = true;
                         }
+                        // Value got from server is not a number or "err", so print "Bad format" to the error board.
                         else if (f.ToString().Contains("not in a correct format"))
                         {
                             Error = "Bad format";
@@ -184,7 +225,7 @@ namespace FlightSimulatorApp.Models
         }
 
 
-        // the properties implementation
+        // Define properties implementation.
 
         public double Heading
         {
@@ -308,6 +349,7 @@ namespace FlightSimulatorApp.Models
             set
             {
                 changed = false;
+                // Check values limits.
                 if (value > 1)
                 {
                     throttle = 1;
@@ -334,6 +376,7 @@ namespace FlightSimulatorApp.Models
             set
             {
                 changed = false;
+                // Check values limits.
                 if (value > 1)
                 {
                     ailrone = 1;
@@ -359,6 +402,7 @@ namespace FlightSimulatorApp.Models
         {
             set
             {
+                // Check values limits.
                 if (value > 1)
                 {
                     rudder = 1;
@@ -380,6 +424,7 @@ namespace FlightSimulatorApp.Models
         {
             set
             {
+                // Check values limits.
                 if (value > 1)
                 {
                     elevator = 1;

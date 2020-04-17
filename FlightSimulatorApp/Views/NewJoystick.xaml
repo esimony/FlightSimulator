@@ -7,6 +7,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" Width="723.223">
     <Grid Margin="0,0,0.2,-0.4">
+
+        <!-- Joystick -->
         <local:Joystick x:Name="js" Loaded="Joystick_Loaded" Margin="126,25,144,39"
             Rudder="{Binding VM_Rudder, Mode=OneWayToSource}" Elevator="{Binding VM_Elevator, Mode=OneWayToSource}">
         </local:Joystick>
@@ -26,6 +28,8 @@
             </Label.RenderTransform>
         </Label>
         <TextBlock x:Name="ElevatorView" Text="{Binding ElementName=js, Path=Elevator, Mode=OneWay, StringFormat=0.0#}" Margin="548,155,130,267" FontSize="16" FontWeight="Bold"/>
+
+        <!-- Sliders-->
         <!-- values of the sliders -->
         <!-- Throttle -->
         <Slider x:Name="ThrottleSlider" Value="{Binding VM_Throttle ,Mode = OneWayToSource}" HorizontalAlignment="Left" Margin="-46,186,0,0" VerticalAlignment="Top" Height="34" Width="275" Maximum="1" Minimum="0" RenderTransformOrigin="0.5,0.5">
@@ -46,3 +50,4 @@
         <TextBlock x:Name="AileronView" Text="{Binding ElementName=AileronSlider, Path=Value, StringFormat=0.0#}" Margin="591,370,83,45" FontSize="16" FontWeight="Bold"/>
     </Grid>
 </UserControl>
+    
