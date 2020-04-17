@@ -31,39 +31,12 @@ namespace FlightSimulatorApp.ViewModels
             }
         }
 
-        public string VM_ConnectionError
+        public string VM_Error
         {
-            get { return model.ConnectionError; }
+            get { return model.Error; }
             set
             {
-                model.ConnectionError = value;
-            }
-        }
-
-        public string VM_TimeoutError
-        {
-            get { return model.TimeoutError; }
-            set
-            {
-                model.TimeoutError = value;
-            }
-        }
-
-        public string VM_FormatError
-        {
-            get { return model.FormatError; }
-            set
-            {
-                model.FormatError = value;
-            }
-        }
-
-        public string VM_LimitError
-        {
-            get { return model.LimitError; }
-            set
-            {
-                model.LimitError = value;
+                model.Error = value;
             }
         }
     }

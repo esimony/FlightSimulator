@@ -28,24 +28,18 @@ namespace FlightSimulatorApp.Models
         private double longitude;
         private string location;
 
-        private string timeoutError;
-        private string connectionError;
-        private string formatError;
-        private string limitError;
+        private string error;
 
         public MySimulatorModel (ITelnetClient telnetClient) {
             this.telnetClient = telnetClient;
             stop = false;
-            timeoutError = "";
-            connectionError = "";
-            formatError = "";
-            limitError = "";
+            error = "";
         }
 
         public int connect(string ip, int port) {
             if (telnetClient.connect(ip, port) != 0)
             {
-                ConnectionError = "Could not connect to server \nclick disconnect and try again";
+                Error = "Could not connect to server \nclick disconnect and try again";
                 return -1;
             }
             return 0;
@@ -104,12 +98,12 @@ namespace FlightSimulatorApp.Models
                             if (latitude >= 90)
                             {
                                 latitude = 90;
-                                LimitError = "Plane has gotten to limit";
+                                Error = "Plane has gotten to limit";
                             }
                             else if (latitude <= -90)
                             {
                                 latitude = -90;
-                                LimitError = "Plane has gotten to limit";
+                                Error = "Plane has gotten to limit";
                             }
                         }
 
@@ -120,12 +114,12 @@ namespace FlightSimulatorApp.Models
                             if (longitude >= 180)
                             {
                                 longitude = 180;
-                                LimitError = "Plane has gotten to limit";
+                                Error = "Plane has gotten to limit";
                             }
                             else if (longitude <= -180)
                             {
                                 longitude = -180;
-                                LimitError = "Plane has gotten to limit";
+                                Error = "Plane has gotten to limit";
                             }
                         }
                         Location = Convert.ToString(latitude + "," + longitude);
@@ -136,35 +130,35 @@ namespace FlightSimulatorApp.Models
                     catch (SocketException)
                     {
                         stop = true;
-                        TimeoutError = "Reading timeout";
+                        Error = "Reading timeout";
                     }
                     catch (FormatException f)
                     {
                         Console.WriteLine("f = " + f);
                         if (message == "READFAILURE")
                         {
-                            FormatError = "Connection to server lost \nclick disconnect and try again";
+                            Error = "Connection to server lost \nclick disconnect and try again";
                             stop = true;
                         }
                         else if (message == "TIMEOUT")
                         {
-                            TimeoutError = "Read timeout";
+                            Error = "Read timeout";
                             stop = true;
                         }
                         else if (message == "GENERALFAILURE")
                         {
-                            FormatError = "Socket failure occured";
+                            Error = "Socket failure occured";
                         }
                         else if (f.ToString().Contains("not in a correct format"))
                         {
-                            FormatError = "Bad format";
+                            Error = "Bad format";
                         }
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine("e = " + e);
                         stop = true;
-                        TimeoutError = "General failure occured";
+                        Error = "General failure occured";
                     }
                 }
             }).Start();
@@ -384,54 +378,15 @@ namespace FlightSimulatorApp.Models
             }
         }
 
-        public string ConnectionError
+        public string Error
         {
-            get { return connectionError; }
+            get { return error; }
             set
             {
-                if (connectionError != value)
+                if (error != value)
                 {
-                    connectionError = value;
-                    NotifyPropertyChanged("ConnectionError");
-                }
-            }
-        }
-
-        public string TimeoutError
-        {
-            get { return timeoutError; }
-            set
-            {
-                if (timeoutError != value)
-                {
-                    timeoutError = value;
-                    NotifyPropertyChanged("TimeoutError");
-                }
-            }
-        }
-
-        public string FormatError
-        {
-            get { return formatError; }
-            set
-            {
-                if (formatError != value)
-                {
-                    formatError = value;
-                    NotifyPropertyChanged("FormatError");
-                }
-            }
-        }
-
-        public string LimitError
-        {
-            get { return limitError; }
-            set
-            {
-                if (limitError != value)
-                {
-                    limitError = value;
-                    NotifyPropertyChanged("LimitError");
+                    error = value;
+                    NotifyPropertyChanged("Error");
                 }
             }
         }
