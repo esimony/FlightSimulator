@@ -21,16 +21,15 @@ namespace FlightSimulatorApp.Models
                 client = new TcpClient();
                 Console.WriteLine("Client is now connected to server");
                 isConnect = true;
+                client.SendTimeout = 10000;
+                client.ReceiveTimeout = 10000;
+                client.Connect(ip, port);
             }
             catch
             {
                 Console.WriteLine("Error - could not connect to server");
                 rc = -1;
             }
-
-            client.SendTimeout = 10000;
-            client.ReceiveTimeout = 10000;
-            client.Connect(ip, port);
             return rc;
         }
 
