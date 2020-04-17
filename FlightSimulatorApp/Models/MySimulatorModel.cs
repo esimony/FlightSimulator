@@ -60,39 +60,57 @@ namespace FlightSimulatorApp.Models
                     try
                     {
                         message = telnetClient.read("get /instrumentation/heading-indicator/indicated-heading-deg\n");
-                        if (!message.Contains("ERR"))
+                        if (message.Contains("ERR"))
+                            Error = "Heading value is err";
+                        else
                             Heading = Double.Parse(message);
 
                         message = telnetClient.read("get /instrumentation/gps/indicated-vertical-speed\n");
-                        if (!message.Contains("ERR"))
+                        if (message.Contains("ERR"))
+                            Error = "Vertical Speed value is err";
+                        else
                             VerticalSpeed = Double.Parse(message);
 
                         message = telnetClient.read("get /instrumentation/gps/indicated-ground-speed-kt\n");
-                        if (!message.Contains("ERR"))
+                        if (message.Contains("ERR"))
+                            Error = "Ground Speed value is err";
+                        else
                             GroundSpeed = Double.Parse(message);
 
                         message = telnetClient.read("get /instrumentation/airspeed-indicator/indicated-speed-kt\n");
-                        if (!message.Contains("ERR"))
+                        if (message.Contains("ERR"))
+                            Error = "Air Speed value is err";
+                        else
                             AirSpeed = Double.Parse(message);
 
                         message = telnetClient.read("get /instrumentation/gps/indicated-altitude-ft\n");
-                        if (!message.Contains("ERR"))
+                        if (message.Contains("ERR"))
+                            Error = "Altitude value is err";
+                        else
                             Altitude = Double.Parse(message);
 
                         message = telnetClient.read("get /instrumentation/attitude-indicator/internal-roll-deg\n");
-                        if (!message.Contains("ERR"))
+                        if (message.Contains("ERR"))
+                            Error = "Roll value is err";
+                        else
                             Roll = Double.Parse(message);
 
                         message = telnetClient.read("get /instrumentation/attitude-indicator/internal-pitch-deg\n");
-                        if (!message.Contains("ERR"))
+                        if (message.Contains("ERR"))
+                            Error = "Pitch value is err";
+                        else
                             Pitch = Double.Parse(message);
 
                         message = telnetClient.read("get /instrumentation/altimeter/indicated-altitude-ft\n");
-                        if (!message.Contains("ERR"))
+                        if (message.Contains("ERR"))
+                            Error = "Altimeter value is err";
+                        else
                             Altimeter = Double.Parse(message);
 
                         message = telnetClient.read("get /position/latitude-deg\n");
-                        if (!message.Contains("ERR"))
+                        if (message.Contains("ERR"))
+                            Error = "Latitude value is err";
+                        else
                         {
                             latitude = Double.Parse(message);
                             if (latitude >= 90)
@@ -108,7 +126,9 @@ namespace FlightSimulatorApp.Models
                         }
 
                         message = telnetClient.read("get /position/longitude-deg\n");
-                        if (!message.Contains("ERR"))
+                        if (message.Contains("ERR"))
+                            Error = "Longitude value is err";
+                        else
                         {
                             longitude = Double.Parse(message);
                             if (longitude >= 180)
@@ -134,7 +154,6 @@ namespace FlightSimulatorApp.Models
                     }
                     catch (FormatException f)
                     {
-                        Console.WriteLine("f = " + f);
                         if (message == "READFAILURE")
                         {
                             Error = "Connection to server lost \nclick disconnect and try again";
@@ -148,17 +167,17 @@ namespace FlightSimulatorApp.Models
                         else if (message == "GENERALFAILURE")
                         {
                             Error = "Socket failure occured";
+                            stop = true;
                         }
                         else if (f.ToString().Contains("not in a correct format"))
                         {
                             Error = "Bad format";
                         }
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
-                        Console.WriteLine("e = " + e);
-                        stop = true;
                         Error = "General failure occured";
+                        stop = true;
                     }
                 }
             }).Start();
