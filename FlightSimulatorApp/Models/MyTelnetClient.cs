@@ -85,10 +85,15 @@ namespace FlightSimulatorApp.Models
                         Console.WriteLine("Error - server closed");
                         return "READFAILURE";
                     }
-                    else
+                    else if (e.ToString().Contains("time"))
                     {
                         Console.WriteLine("Error - read timeout");
                         return "TIMEOUT";
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error - general failure");
+                        return "GENERALFAILURE";
                     }
                 }
             }

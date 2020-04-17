@@ -138,8 +138,9 @@ namespace FlightSimulatorApp.Models
                         stop = true;
                         TimeoutError = "Reading timeout";
                     }
-                    catch (FormatException)
+                    catch (FormatException f)
                     {
+                        Console.WriteLine("f = " + f);
                         if (message == "READFAILURE")
                         {
                             FormatError = "Connection to server lost \nclick disconnect and try again";
@@ -147,16 +148,23 @@ namespace FlightSimulatorApp.Models
                         }
                         else if (message == "TIMEOUT")
                         {
-                            TimeoutError = "Reading timeout";
+                            TimeoutError = "Read timeout";
                             stop = true;
                         }
-                        else if (message != "")
+                        else if (message == "GENERALFAILURE")
+                        {
+                            FormatError = "Socket failure occured";
+                        }
+                        else if (f.ToString().Contains("not in a correct format"))
+                        {
                             FormatError = "Bad format";
+                        }
                     }
-                    catch
+                    catch (Exception e)
                     {
+                        Console.WriteLine("e = " + e);
                         stop = true;
-                        TimeoutError = "Reading timeout";
+                        TimeoutError = "General failure occured";
                     }
                 }
             }).Start();
