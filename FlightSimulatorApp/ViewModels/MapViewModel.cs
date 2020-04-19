@@ -36,13 +36,5 @@ namespace FlightSimulatorApp.ViewModels
                 return model.Location;
             }
         }
-
-        public bool Connect
-        {
-            get
-            {
-                return model.Connect;
-            }
-        }
     }
 }
